@@ -150,37 +150,91 @@
         /* الفوتر */
         .footer {
             text-align: center;
-            padding: 20px;
+            padding: 30px 20px;
             margin-top: 60px;
             background-color: #1e1b4b;
             color: white;
             font-size: 0.9rem;
+            position: relative;
         }
 
-        /* 🛠️ تصميم لوحة التحكم والسرية بأسفل الصفحة */
-        .admin-panel {
+        /* زر فتح لوحة التحكم المخفي الأنيق بالفوتر */
+        .btn-open-admin {
+            background: transparent;
+            color: #64748b;
+            border: 1px solid #334155;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        .btn-open-admin:hover {
+            color: #f8fafc;
+            border-color: #6366f1;
+            background-color: #1e293b;
+        }
+
+        /* 🛠️ شاشة الـ Popup المنبثقة للوحة التحكم */
+        .admin-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+        }
+        .admin-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .admin-modal {
             background: #1e293b;
             color: #f8fafc;
-            padding: 40px 20px;
-            margin-top: 80px;
-            border-top: 5px solid #6366f1;
+            width: 100%;
+            max-width: 550px;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid #475569;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .admin-container {
-            max-width: 600px;
-            margin: 0 auto;
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
-        .admin-panel h2 {
+        .close-modal:hover { color: #f8fafc; }
+        .admin-modal h2 {
             margin-bottom: 20px;
             color: #38bdf8;
             text-align: center;
+            font-size: 1.5rem;
         }
         .form-group {
             margin-bottom: 15px;
+            text-align: right;
         }
         .form-group label {
             display: block;
             margin-bottom: 5px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #cbd5e1;
         }
         .form-group input, .form-group textarea {
@@ -218,7 +272,6 @@
             margin-top: 5px;
         }
         
-        /* إخفاء الواجهة بشكل افتراضي */
         #managementArea { display: none; }
     </style>
 </head>
@@ -245,15 +298,18 @@
 
     <!-- الفوتر -->
     <div class="footer">
-        &copy; 2026 متجر رنين للصوتيات. جميع الحقوق محفوظة.
+        <div>&copy; 2026 متجر رنين للصوتيات. جميع الحقوق محفوظة.</div>
+        <!-- الزر المضاف لفتح لوحة التحكم بشكل مخفي وغير مزعج -->
+        <button class="btn-open-admin" onclick="toggleAdminModal(true)">⚙️ دخول لوحة التحكم</button>
     </div>
 
 
-    <!-- 🛠️ لوحة التحكم لإدارة كود المتجر يدوياً (محمية بكلمة مرور بأسفل الصفحة) -->
-    <div class="admin-panel">
-        <div class="admin-container">
+    <!-- 🛠️ النافذة المنبثقة للوحة التحكم السرية (تظهر فوق المتجر عند الضغط على الزر فقط) -->
+    <div class="admin-overlay" id="adminOverlay">
+        <div class="admin-modal">
+            <button class="close-modal" onclick="toggleAdminModal(false)">✕</button>
             
-            <!-- 🔑 واجهة تسجيل الدخول أولاً -->
+            <!-- 🔑 أولاً: نموذج تسجيل الدخول -->
             <div id="loginArea">
                 <h2>🔐 تسجيل الدخول للوحة التحكم</h2>
                 <div class="form-group">
@@ -267,9 +323,9 @@
                 <button class="admin-btn" onclick="checkLogin()">تسجيل الدخول</button>
             </div>
 
-            <!-- ⚙️ واجهة التحكم وإضافة المنتجات (مخفية وتظهر بعد كتابة الحساب الصحيح) -->
+            <!-- ⚙️ ثانياً: واجهة إدارة المنتجات مدمجة (تظهر بعد الدخول الصحيح) -->
             <div id="managementArea">
-                <h2>⚙️ لوحة إدارة منتجات المتجر السرية</h2>
+                <h2>⚙️ لوحة إدارة المنتجات الحالية</h2>
                 
                 <div class="form-group">
                     <label>اسم المنتج الجديد:</label>
@@ -280,54 +336,3 @@
                     <label>وصف المنتج:</label>
                     <textarea id="prodDesc" rows="2" placeholder="اكتب تفاصيل ومميزات المنتج هنا..."></textarea>
                 </div>
-                
-                <div class="form-group">
-                    <label>السعر:</label>
-                    <input type="text" id="prodPrice" placeholder="مثال: 250 ر.س">
-                </div>
-                
-                <div class="form-group">
-                    <label>رابط الصورة المباشر (أو ضع إيموجي مثل 🎧 🔊 🎙️):</label>
-                    <input type="text" id="prodImg" placeholder="رابط الصورة أو رمز إيموجي">
-                </div>
-
-                <button class="admin-btn" onclick="addNewProduct()">➕ إدخال المنتج إلى القائمة</button>
-                <button class="admin-btn download-btn" onclick="downloadUpdatedCode()">💾 تحميل الكود المحدث تلقائياً</button>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- 📜 محرك جافا سكريبت لتشغيل الواجهة والتحقق من الحساب وتوليد الأكواد تلقائياً -->
-    <script>
-        // 📥 مصفوفة المنتجات الحالية في متجرك
-        const productsData = [
-  {
-    "img": "🎧",
-    "title": "سماعة رأس محيطية لاسلكية",
-    "desc": "عزل صوتي كامل (ANC) مع بطارية تدوم حتى 40 ساعة متواصلة ونقاء صوتي فائق.",
-    "price": "299 ر.س"
-  },
-  {
-    "img": "🎙️",
-    "title": "ميكروفون احترافي للبث والبودكاست",
-    "desc": "تسجيل نقي للغاية مع ميزة تصفية الضوضاء المحيطية، يوصل مباشرة عبر الـ USB.",
-    "price": "350 ر.س"
-  },
-  {
-    "img": "🔊",
-    "title": "مكبر صوت بلوتوث متنقل",
-    "desc": "مقاوم للماء والغبار بصوت قوي جداً وتوزيع مجسم 360 درجة، مثالي للرحلات.",
-    "price": "180 ر.س"
-  }
-];
-
-        // رقم الواتساب الخاص بك
-        const myWhatsAppNumber = "966500000000"; 
-
-        // 🔐 دالة التحقق من تسجيل الدخول
-        function checkLogin() {
-            const user = document.getElementById('usernameInput').value.trim();
-            const pass = document.getElementById('passwordInput').value.trim();
-
