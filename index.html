@@ -96,6 +96,8 @@
             justify-content: center;
             color: #64748b;
             font-size: 3rem;
+            background-size: cover;
+            background-position: center;
         }
 
         .product-info {
@@ -117,6 +119,8 @@
             color: #64748b;
             margin-bottom: 15px;
             line-height: 1.5;
+            height: 60px;
+            overflow: hidden;
         }
 
         .product-price {
@@ -152,6 +156,67 @@
             color: white;
             font-size: 0.9rem;
         }
+
+        /* 🛠️ تصميم لوحة التحكم السرية بأسفل الصفحة */
+        .admin-panel {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 40px 20px;
+            margin-top: 80px;
+            border-top: 5px solid #6366f1;
+        }
+        .admin-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .admin-panel h2 {
+            margin-bottom: 20px;
+            color: #38bdf8;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.95rem;
+            color: #cbd5e1;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background: #334155;
+            color: white;
+            font-size: 1rem;
+        }
+        .admin-btn {
+            background: #6366f1;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        .admin-btn:hover { background: #4f46e5; }
+        .download-btn { background: #22c55e; margin-top: 15px; }
+        .download-btn:hover { background: #16a34a; }
+        .delete-btn {
+            background: #ef4444;
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -171,43 +236,8 @@
     <div class="container">
         <h2 class="section-title">أحدث المنتجات الصوتية</h2>
         
-        <div class="products-grid">
-            
-            <!-- منتج 1 -->
-            <div class="product-card">
-                <div class="product-img">🎧</div>
-                <div class="product-info">
-                    <h3 class="product-title">سماعة رأس محيطية لاسلكية</h3>
-                    <p class="product-desc">عزل صوتي كامل (ANC) مع بطارية تدوم حتى 40 ساعة متواصلة ونقاء صوتي فائق.</p>
-                    <div class="product-price">299 ر.س</div>
-                    <!-- استبدل رقم الهاتف بعد phone= برقمك مباشرة ليوجه العميل إليك -->
-                    <a href="https://wa.me" target="_blank" class="btn-whatsapp">اطلب عبر الواتساب</a>
-                </div>
-            </div>
-
-            <!-- منتج 2 -->
-            <div class="product-card">
-                <div class="product-img">🎙️</div>
-                <div class="product-info">
-                    <h3 class="product-title">ميكروفون احترافي للبث والبودكاست</h3>
-                    <p class="product-desc">تسجيل نقي للغاية مع ميزة تصفية الضوضاء المحيطية، يوصل مباشرة عبر الـ USB.</p>
-                    <div class="product-price">350 ر.س</div>
-                    <a href="https://wa.me" target="_blank" class="btn-whatsapp">اطلب عبر الواتساب</a>
-                </div>
-            </div>
-
-            <!-- منتج 3 -->
-            <div class="product-card">
-                <div class="product-img">🔊</div>
-                <div class="product-info">
-                    <h3 class="product-title">مكبر صوت بلوتوث متنقل</h3>
-                    <p class="product-desc">مقاوم للماء والغبار بصوت قوي جداً وتوزيع مجسم 360 درجة، مثالي للرحلات.</p>
-                    <div class="product-price">180 ر.س</div>
-                    <a href="https://wa.me" target="_blank" class="btn-whatsapp">اطلب عبر الواتساب</a>
-                </div>
-            </div>
-
-        </div>
+        <!-- الحاوية الأساسية للمنتجات التي سيتم تحديثها تلقائياً -->
+        <div class="products-grid" id="productsGrid"></div>
     </div>
 
     <!-- الفوتر -->
@@ -215,5 +245,80 @@
         &copy; 2026 متجر رنين للصوتيات. جميع الحقوق محفوظة.
     </div>
 
-</body>
-</html>
+
+    <!-- 🛠️ لوحة التحكم لإدارة كود المتجر يدوياً (مخفية للزوار بأسفل الصفحة) -->
+    <div class="admin-panel">
+        <div class="admin-container">
+            <h2>⚙️ لوحة إدارة منتجات المتجر السرية</h2>
+            
+            <div class="form-group">
+                <label>اسم المنتج الجديد:</label>
+                <input type="text" id="prodTitle" placeholder="مثال: سماعة رنين الاحترافية">
+            </div>
+            
+            <div class="form-group">
+                <label>وصف المنتج:</label>
+                <textarea id="prodDesc" rows="2" placeholder="اكتب تفاصيل ومميزات المنتج هنا..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>السعر:</label>
+                <input type="text" id="prodPrice" placeholder="مثال: 250 ر.س">
+            </div>
+            
+            <div class="form-group">
+                <label>رابط الصورة المباشر (أو ضع إيموجي مثل 🎧 🔊 🎙️):</label>
+                <input type="text" id="prodImg" placeholder="رابط الصورة أو رمز إيموجي">
+            </div>
+
+            <button class="admin-btn" onclick="addNewProduct()">➕ إدخال المنتج إلى القائمة</button>
+            <button class="admin-btn download-btn" onclick="downloadUpdatedCode()">💾 تحميل الكود المحدث تلقائياً</button>
+        </div>
+    </div>
+
+
+    <!-- 📜 محرك جافا سكريبت لتشغيل الواجهة وتوليد الأكواد تلقائياً -->
+    <script>
+        // 📥 هذه هي مصفوفة البيانات الخاصة بمنتجاتك الحالية (تتعدل تلقائياً)
+        const productsData = [
+  {
+    "img": "🎧",
+    "title": "سماعة رأس محيطية لاسلكية",
+    "desc": "عزل صوتي كامل (ANC) مع بطارية تدوم حتى 40 ساعة متواصلة ونقاء صوتي فائق.",
+    "price": "299 ر.س"
+  },
+  {
+    "img": "🎙️",
+    "title": "ميكروفون احترافي للبث والبودكاست",
+    "desc": "تسجيل نقي للغاية مع ميزة تصفية الضوضاء المحيطية، يوصل مباشرة عبر الـ USB.",
+    "price": "350 ر.س"
+  },
+  {
+    "img": "🔊",
+    "title": "مكبر صوت بلوتوث متنقل",
+    "desc": "مقاوم للماء والغبار بصوت قوي جداً وتوزيع مجسم 360 درجة، مثالي للرحلات.",
+    "price": "180 ر.س"
+  }
+];
+
+        // رقم الواتساب الخاص بك (يرجى تعديله هنا بالرقم الدولي ليتم تطبيقه على كل المنتجات تلقائياً)
+        const myWhatsAppNumber = "966500000000"; 
+
+        // دالة لعرض المنتجات في الصفحة
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+
+            productsData.forEach((product, index) => {
+                // التحقق مما إذا كانت الصورة رابطاً أم رمز إيموجي
+                const isUrl = product.img.startsWith('http://') || product.img.startsWith('https://') || product.img.startsWith('images/') || product.img.includes('.');
+                const imgStyle = isUrl ? `background-image: url('${product.img}'); color: transparent;` : '';
+                const imgContent = isUrl ? '' : product.img;
+
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-img" style="${imgStyle}">${imgContent}</div>
+                        <div class="product-info">
+                            <h3 class="product-title">${product.title}</h3>
+                            <p class="product-desc">${product.desc}</p>
+                            <div class="product-price">${product.price}</div>
