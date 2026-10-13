@@ -157,7 +157,7 @@
             font-size: 0.9rem;
         }
 
-        /* 🛠️ تصميم لوحة التحكم السرية بأسفل الصفحة */
+        /* 🛠️ تصميم لوحة التحكم والسرية بأسفل الصفحة */
         .admin-panel {
             background: #1e293b;
             color: #f8fafc;
@@ -217,6 +217,9 @@
             font-size: 0.8rem;
             margin-top: 5px;
         }
+        
+        /* إخفاء الواجهة بشكل افتراضي */
+        #managementArea { display: none; }
     </style>
 </head>
 <body>
@@ -246,40 +249,59 @@
     </div>
 
 
-    <!-- 🛠️ لوحة التحكم لإدارة كود المتجر يدوياً (مخفية للزوار بأسفل الصفحة) -->
+    <!-- 🛠️ لوحة التحكم لإدارة كود المتجر يدوياً (محمية بكلمة مرور بأسفل الصفحة) -->
     <div class="admin-panel">
         <div class="admin-container">
-            <h2>⚙️ لوحة إدارة منتجات المتجر السرية</h2>
             
-            <div class="form-group">
-                <label>اسم المنتج الجديد:</label>
-                <input type="text" id="prodTitle" placeholder="مثال: سماعة رنين الاحترافية">
-            </div>
-            
-            <div class="form-group">
-                <label>وصف المنتج:</label>
-                <textarea id="prodDesc" rows="2" placeholder="اكتب تفاصيل ومميزات المنتج هنا..."></textarea>
-            </div>
-            
-            <div class="form-group">
-                <label>السعر:</label>
-                <input type="text" id="prodPrice" placeholder="مثال: 250 ر.س">
-            </div>
-            
-            <div class="form-group">
-                <label>رابط الصورة المباشر (أو ضع إيموجي مثل 🎧 🔊 🎙️):</label>
-                <input type="text" id="prodImg" placeholder="رابط الصورة أو رمز إيموجي">
+            <!-- 🔑 واجهة تسجيل الدخول أولاً -->
+            <div id="loginArea">
+                <h2>🔐 تسجيل الدخول للوحة التحكم</h2>
+                <div class="form-group">
+                    <label>اسم المستخدم:</label>
+                    <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم">
+                </div>
+                <div class="form-group">
+                    <label>كلمة السر:</label>
+                    <input type="password" id="passwordInput" placeholder="أدخل كلمة السر">
+                </div>
+                <button class="admin-btn" onclick="checkLogin()">تسجيل الدخول</button>
             </div>
 
-            <button class="admin-btn" onclick="addNewProduct()">➕ إدخال المنتج إلى القائمة</button>
-            <button class="admin-btn download-btn" onclick="downloadUpdatedCode()">💾 تحميل الكود المحدث تلقائياً</button>
+            <!-- ⚙️ واجهة التحكم وإضافة المنتجات (مخفية وتظهر بعد كتابة الحساب الصحيح) -->
+            <div id="managementArea">
+                <h2>⚙️ لوحة إدارة منتجات المتجر السرية</h2>
+                
+                <div class="form-group">
+                    <label>اسم المنتج الجديد:</label>
+                    <input type="text" id="prodTitle" placeholder="مثال: سماعة رنين الاحترافية">
+                </div>
+                
+                <div class="form-group">
+                    <label>وصف المنتج:</label>
+                    <textarea id="prodDesc" rows="2" placeholder="اكتب تفاصيل ومميزات المنتج هنا..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>السعر:</label>
+                    <input type="text" id="prodPrice" placeholder="مثال: 250 ر.س">
+                </div>
+                
+                <div class="form-group">
+                    <label>رابط الصورة المباشر (أو ضع إيموجي مثل 🎧 🔊 🎙️):</label>
+                    <input type="text" id="prodImg" placeholder="رابط الصورة أو رمز إيموجي">
+                </div>
+
+                <button class="admin-btn" onclick="addNewProduct()">➕ إدخال المنتج إلى القائمة</button>
+                <button class="admin-btn download-btn" onclick="downloadUpdatedCode()">💾 تحميل الكود المحدث تلقائياً</button>
+            </div>
+
         </div>
     </div>
 
 
-    <!-- 📜 محرك جافا سكريبت لتشغيل الواجهة وتوليد الأكواد تلقائياً -->
+    <!-- 📜 محرك جافا سكريبت لتشغيل الواجهة والتحقق من الحساب وتوليد الأكواد تلقائياً -->
     <script>
-        // 📥 هذه هي مصفوفة البيانات الخاصة بمنتجاتك الحالية (تتعدل تلقائياً)
+        // 📥 مصفوفة المنتجات الحالية في متجرك
         const productsData = [
   {
     "img": "🎧",
@@ -301,24 +323,11 @@
   }
 ];
 
-        // رقم الواتساب الخاص بك (يرجى تعديله هنا بالرقم الدولي ليتم تطبيقه على كل المنتجات تلقائياً)
+        // رقم الواتساب الخاص بك
         const myWhatsAppNumber = "966500000000"; 
 
-        // دالة لعرض المنتجات في الصفحة
-        function renderProducts() {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = '';
+        // 🔐 دالة التحقق من تسجيل الدخول
+        function checkLogin() {
+            const user = document.getElementById('usernameInput').value.trim();
+            const pass = document.getElementById('passwordInput').value.trim();
 
-            productsData.forEach((product, index) => {
-                // التحقق مما إذا كانت الصورة رابطاً أم رمز إيموجي
-                const isUrl = product.img.startsWith('http://') || product.img.startsWith('https://') || product.img.startsWith('images/') || product.img.includes('.');
-                const imgStyle = isUrl ? `background-image: url('${product.img}'); color: transparent;` : '';
-                const imgContent = isUrl ? '' : product.img;
-
-                grid.innerHTML += `
-                    <div class="product-card">
-                        <div class="product-img" style="${imgStyle}">${imgContent}</div>
-                        <div class="product-info">
-                            <h3 class="product-title">${product.title}</h3>
-                            <p class="product-desc">${product.desc}</p>
-                            <div class="product-price">${product.price}</div>
