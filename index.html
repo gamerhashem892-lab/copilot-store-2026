@@ -1,958 +1,895 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ranin Sound | رنين ساوند</title>
+<title>RANIN SOUND | متجر الصوتيات</title>
 
 <style>
 :root {
-  --bg: #0b0b0d;
-  --panel: #151519;
-  --panel2: #202026;
-  --text: #f7f7f8;
-  --muted: #a7a7b0;
-  --accent: #d8b46a;
-  --border: #303036;
-  --danger: #ef5350;
+  --bg:#0b0b0f;
+  --panel:#15151c;
+  --panel2:#20202a;
+  --text:#f6f6fa;
+  --muted:#aaaab8;
+  --accent:#d5a84b;
+  --border:#30303b;
+  --danger:#e74c3c;
 }
-
-* { box-sizing: border-box; }
-
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  font-family: Arial, Tahoma, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Tahoma,sans-serif;
 }
-
-button, input, textarea, select { font: inherit; }
-button { cursor: pointer; }
-
+button,input,textarea,select { font:inherit; }
+button { cursor:pointer; }
 header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(11,11,13,.94);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#101015f5;
+  border-bottom:1px solid var(--border);
+  padding:15px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
 }
-
-.nav {
-  max-width: 1200px;
-  margin: auto;
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 15px;
+.logo {
+  color:var(--accent);
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:1px;
 }
-
-.brand {
-  color: var(--accent);
-  font-weight: 900;
-  font-size: 25px;
-  letter-spacing: 1px;
+.header-actions { display:flex; gap:8px; flex-wrap:wrap; }
+.btn {
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  background:var(--accent);
+  color:#151515;
+  font-weight:bold;
 }
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.btn.secondary {
+  background:var(--panel2);
+  color:white;
+  border:1px solid var(--border);
 }
-
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 11px 15px;
-  transition: .2s;
-}
-
-button:hover { filter: brightness(1.12); }
-
-.btn-primary {
-  background: var(--accent);
-  color: #17130a;
-  font-weight: bold;
-}
-
-.btn-secondary {
-  background: var(--panel2);
-  color: white;
-  border: 1px solid var(--border);
-}
-
-.btn-danger {
-  background: #411d20;
-  color: #ffb5b5;
-  border: 1px solid #743136;
-}
-
-.admin-icon {
-  width: 43px;
-  height: 43px;
-  padding: 0;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: var(--panel2);
-  color: var(--accent);
-  border: 1px solid var(--border);
-}
-
-.admin-icon svg { width: 23px; height: 23px; }
-
+.btn.danger { background:var(--danger); color:white; }
+.btn.full { width:100%; }
+main { max-width:1200px; margin:auto; padding:25px 18px 70px; }
 .hero {
-  max-width: 1200px;
-  margin: auto;
-  padding: 55px 20px 35px;
+  padding:35px 22px;
+  margin-bottom:25px;
+  border:1px solid var(--border);
+  border-radius:18px;
+  background:linear-gradient(135deg,#252018,#15151c 65%);
 }
-
-.hero h1 {
-  font-size: clamp(30px, 5vw, 53px);
-  margin: 0 0 12px;
-}
-
-.hero h1 span { color: var(--accent); }
-
-.hero p {
-  color: var(--muted);
-  line-height: 1.9;
-  max-width: 620px;
-  margin: 0;
-}
-
-.section {
-  max-width: 1200px;
-  padding: 10px 20px 55px;
-  margin: auto;
-}
-
+.hero h1 { margin:0 0 10px; font-size:clamp(25px,5vw,42px); }
+.hero p { color:var(--muted); line-height:1.8; margin:0; }
 .section-title {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin:25px 0 16px;
 }
-
-.section-title h2 { margin: 0; font-size: 25px; }
-
-.muted { color: var(--muted); }
-
+.section-title h2 { margin:0; }
 .products {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-  gap: 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:18px;
 }
-
 .product-card {
-  min-width: 0;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--panel);
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:15px;
+  overflow:hidden;
+  transition:transform .2s,border-color .2s;
 }
-
+.product-card:hover { transform:translateY(-3px); border-color:var(--accent); }
 .product-image {
-  position: relative;
-  height: 245px;
-  background: #202025;
-  overflow: hidden;
-  cursor: pointer;
+  height:220px;
+  width:100%;
+  object-fit:cover;
+  background:#222;
+  display:block;
+  cursor:pointer;
 }
-
-.product-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform .3s;
-}
-
-.product-image:hover img { transform: scale(1.04); }
-
-.image-hint {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background: rgba(0,0,0,.72);
-  padding: 7px 10px;
-  border-radius: 8px;
-  font-size: 12px;
-  pointer-events: none;
-}
-
-.no-image {
-  height: 100%;
-  display: grid;
-  place-items: center;
-  color: var(--muted);
-  cursor: pointer;
-}
-
-.product-info { padding: 16px; }
-
-.product-name {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 0 0 9px;
-  cursor: pointer;
-}
-
-.product-name:hover { color: var(--accent); }
-
-.product-description {
-  font-size: 13px;
-  color: var(--muted);
-  line-height: 1.7;
-  min-height: 42px;
-  margin-bottom: 13px;
-  white-space: pre-wrap;
-}
-
-/* Hide descriptions on product cards; descriptions remain visible in the product details modal and in the admin form. */
-.product-card .product-description { display: none; }
-
-.product-bottom {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-}
-
-.price {
-  color: var(--accent);
-  font-size: 19px;
-  font-weight: bold;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  direction: rtl;
-}
-
-.riyal-symbol {
-  display: inline-block;
-  width: 21px;
-  height: 23px;
-  object-fit: contain;
-  vertical-align: middle;
-  filter: brightness(0) saturate(100%) invert(77%) sepia(32%)
-          saturate(475%) hue-rotate(1deg) brightness(91%);
-}
-
-.price-fallback {
-  display: none;
-  font-size: 13px;
-}
-
-.order-btn {
-  background: #177d48;
-  color: white;
-  padding: 10px 12px;
-  font-weight: bold;
-}
-
-.admin-controls {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.admin-controls button { flex: 1; padding: 9px 6px; }
-
+.product-info { padding:15px; }
+.product-name { font-size:18px; font-weight:bold; margin:0 0 10px; }
+.product-price { color:var(--accent); font-size:19px; font-weight:bold; margin-bottom:13px; }
+.product-actions { display:flex; gap:8px; }
+.product-actions button { flex:1; padding:10px 7px; font-size:13px; }
+.muted { color:var(--muted); }
 .empty {
-  grid-column: 1 / -1;
-  text-align: center;
-  color: var(--muted);
-  padding: 45px 10px;
-  border: 1px dashed var(--border);
-  border-radius: 15px;
+  padding:35px 15px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--border);
+  border-radius:12px;
+  grid-column:1/-1;
 }
-
-footer {
-  border-top: 1px solid var(--border);
-  text-align: center;
-  padding: 25px 15px;
-  color: var(--muted);
-  font-size: 13px;
+.overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:30;
+  background:#000c;
+  padding:15px;
+  overflow-y:auto;
+  align-items:center;
+  justify-content:center;
 }
-
-footer strong { color: var(--accent); }
-
-/* النوافذ */
+.overlay.show { display:flex; }
 .modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: rgba(0,0,0,.82);
-  padding: 18px;
-  overflow-y: auto;
-  align-items: center;
-  justify-content: center;
+  width:min(800px,100%);
+  max-height:94vh;
+  overflow-y:auto;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:20px;
 }
-
-.modal.open { display: flex; }
-
-.modal-box {
-  width: min(560px, 100%);
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  padding: 22px;
-  position: relative;
-  margin: auto;
+.modal.small { width:min(500px,100%); }
+.modal-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:15px;
 }
-
-.modal-box h2 { margin: 0 0 20px; }
-
-.close-btn {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  width: 38px;
-  height: 38px;
-  padding: 0;
-  background: var(--panel2);
-  color: white;
-  font-size: 23px;
+.modal-header h2 { margin:0; }
+.close {
+  border:0;
+  background:var(--panel2);
+  color:white;
+  border-radius:8px;
+  width:38px;
+  height:38px;
+  font-size:22px;
 }
-
-.field { margin-bottom: 14px; }
-
-.field label {
-  display: block;
-  margin-bottom: 7px;
-  font-size: 14px;
-  color: #ddd;
+.details-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
 }
-
-.field input,
-.field textarea,
-.field select {
-  width: 100%;
-  background: #0e0e11;
-  color: white;
-  border: 1px solid var(--border);
-  border-radius: 9px;
-  padding: 12px;
-  outline: none;
-}
-
-.field input:focus,
-.field textarea:focus { border-color: var(--accent); }
-
-.field textarea {
-  resize: vertical;
-  min-height: 85px;
-}
-
-.form-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.form-actions button { flex: 1; }
-
-.admin-panel { width: min(650px, 100%); }
-
-.small-note {
-  font-size: 12px;
-  color: var(--muted);
-  line-height: 1.7;
-  margin-top: 7px;
-}
-
-/* تفاصيل المنتج */
-.details-box {
-  width: min(760px, 100%);
-  padding: 20px;
-}
-
-.details-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-  align-items: start;
-}
-
 .details-main-image {
-  width: 100%;
-  height: 330px;
-  object-fit: contain;
-  background: #09090b;
-  border-radius: 12px;
-  cursor: zoom-in;
+  width:100%;
+  height:330px;
+  object-fit:contain;
+  background:#0b0b0f;
+  border-radius:12px;
+  cursor:zoom-in;
 }
-
-.details-thumbs {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 10px 0 2px;
+.thumbnails { display:flex; gap:8px; overflow-x:auto; padding:10px 0; }
+.thumbnail {
+  width:65px;
+  height:65px;
+  flex-shrink:0;
+  object-fit:cover;
+  border:2px solid transparent;
+  border-radius:8px;
+  cursor:pointer;
 }
-
-.details-thumbs img {
-  width: 65px;
-  height: 65px;
-  object-fit: cover;
-  border-radius: 8px;
-  border: 2px solid transparent;
-  cursor: pointer;
-}
-
-.details-thumbs img.active { border-color: var(--accent); }
-
+.thumbnail.active { border-color:var(--accent); }
 .details-description {
-  color: var(--muted);
-  line-height: 1.9;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  color:#ddd;
+  line-height:1.9;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
 }
-
-.details-price { margin: 15px 0; font-size: 25px; }
-
-/* عارض الصورة بالحجم الكامل */
+.field { margin-bottom:14px; }
+.field label { display:block; margin-bottom:7px; font-weight:bold; }
+.field input,.field textarea,.field select {
+  width:100%;
+  background:#0f0f14;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:12px;
+  outline:none;
+}
+.field input:focus,.field textarea:focus { border-color:var(--accent); }
+.field textarea { min-height:100px; resize:vertical; }
+.admin-product {
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:10px;
+}
+.admin-product img {
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:8px;
+}
+.admin-product-info { flex:1; min-width:0; }
+.admin-product-actions { display:flex; gap:6px; flex-wrap:wrap; }
+.cart-line {
+  display:grid;
+  grid-template-columns:65px 1fr auto;
+  gap:12px;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  padding:13px 0;
+}
+.cart-line img {
+  width:65px;
+  height:65px;
+  object-fit:cover;
+  border-radius:8px;
+}
+.cart-name { font-weight:bold; margin-bottom:7px; }
+.qty-controls { display:flex; align-items:center; gap:9px; margin-top:8px; }
+.qty-controls button {
+  width:30px;
+  height:30px;
+  border:1px solid var(--border);
+  border-radius:7px;
+  background:var(--panel2);
+  color:white;
+}
+.cart-total {
+  display:flex;
+  justify-content:space-between;
+  font-size:20px;
+  font-weight:bold;
+  padding:18px 0;
+}
+.cart-badge {
+  display:inline-flex;
+  min-width:20px;
+  height:20px;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#111;
+  color:var(--accent);
+  font-size:12px;
+  margin-right:5px;
+}
 .lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 300;
-  background: rgba(0,0,0,.96);
-  align-items: center;
-  justify-content: center;
-  padding: 55px 65px;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  background:#000f;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:55px 15px;
 }
-
-.lightbox.open { display: flex; }
-
-.lightbox-image {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  user-select: none;
+.lightbox.show { display:flex; }
+.lightbox img {
+  max-width:95vw;
+  max-height:85vh;
+  object-fit:contain;
 }
-
-.lightbox-close {
-  position: absolute;
-  top: 15px;
-  left: 18px;
-  width: 45px;
-  height: 45px;
-  background: #28282d;
-  color: white;
-  font-size: 28px;
-  z-index: 2;
+.lightbox button {
+  position:absolute;
+  background:#222;
+  color:white;
+  border:1px solid #555;
+  border-radius:9px;
+  padding:10px 15px;
 }
-
-.lightbox-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 45px;
-  height: 55px;
-  padding: 0;
-  border-radius: 10px;
-  background: rgba(45,45,50,.9);
-  color: white;
-  font-size: 30px;
+#lightboxClose { top:15px; left:15px; font-size:23px; }
+#lightboxPrev { right:15px; top:50%; }
+#lightboxNext { left:15px; top:50%; }
+footer {
+  text-align:center;
+  color:var(--muted);
+  padding:25px;
+  border-top:1px solid var(--border);
 }
-
-.lightbox-prev { right: 12px; }
-.lightbox-next { left: 12px; }
-
-.lightbox-counter {
-  position: absolute;
-  bottom: 17px;
-  color: white;
-  background: rgba(35,35,40,.9);
-  padding: 8px 14px;
-  border-radius: 20px;
-  font-size: 14px;
+.notice {
+  background:#242018;
+  border:1px solid #57472b;
+  color:#f1d99e;
+  border-radius:9px;
+  padding:11px;
+  margin-bottom:14px;
+  font-size:13px;
+  line-height:1.7;
 }
-
-@media (max-width: 600px) {
-  .nav { padding: 12px; }
-  .brand { font-size: 20px; }
-  .nav-actions { gap: 6px; }
-  .nav-actions button { padding: 9px; }
-  .hero { padding-top: 38px; }
-  .products { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .product-image { height: 175px; }
-  .product-info { padding: 11px; }
-  .product-name { font-size: 15px; }
-  .product-description { font-size: 12px; }
-  .product-bottom { align-items: flex-start; flex-direction: column; }
-  .order-btn { width: 100%; }
-  .price { font-size: 17px; }
-  .riyal-symbol { width: 19px; height: 21px; }
-  .details-layout { grid-template-columns: 1fr; }
-  .details-main-image { height: 260px; }
-  .lightbox { padding: 55px 42px; }
-  .lightbox-arrow { width: 34px; height: 45px; }
-  .lightbox-prev { right: 4px; }
-  .lightbox-next { left: 4px; }
+@media(max-width:650px) {
+  header { padding:12px; }
+  .logo { font-size:17px; }
+  .header-actions .btn { padding:10px; font-size:12px; }
+  main { padding:17px 12px 45px; }
+  .products { grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .product-image { height:155px; }
+  .product-info { padding:10px; }
+  .product-name { font-size:15px; }
+  .product-price { font-size:16px; }
+  .product-actions { flex-direction:column; }
+  .product-actions button { width:100%; }
+  .details-grid { grid-template-columns:1fr; }
+  .details-main-image { height:260px; }
+  .modal { padding:14px; }
+  .cart-line { grid-template-columns:52px 1fr auto; gap:8px; }
+  .cart-line img { width:52px; height:52px; }
+  .cart-line .line-price { font-size:13px; }
 }
 </style>
 </head>
 
 <body>
-
 <header>
-  <div class="nav">
-    <div class="brand">RANIN SOUND</div>
-    <div class="nav-actions">
-      <button class="btn-primary" id="contactBtn">تواصل معنا</button>
-      <button class="admin-icon" id="adminBtn" aria-label="الإدارة" title="دخول الإدارة">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="8" r="4"></circle>
-          <path d="M4 21v-2a8 8 0 0 1 16 0v2"></path>
-        </svg>
-      </button>
-    </div>
+  <div class="logo">RANIN SOUND</div>
+  <div class="header-actions">
+    <button class="btn secondary" onclick="openCart()">
+      🛒 السلة <span class="cart-badge" id="cartCount">0</span>
+    </button>
+    <button class="btn secondary" onclick="openAdminLogin()">لوحة التحكم</button>
   </div>
 </header>
 
-<section class="hero">
-  <h1>اكتشف عالم <span>الصوت</span></h1>
-  <p>
-    مرحبًا بك في رنين ساوند، وجهتك لاكتشاف المنتجات الصوتية.
-    تصفح المنتجات، شاهد الصور بالتفصيل، واطلب المنتج الذي يناسبك بسهولة.
-  </p>
-</section>
+<main>
+  <section class="hero">
+    <h1>اكتشف عالم الصوتيات</h1>
+    <p>اختر منتجاتك المفضلة، واجمعها في سلة واحدة، وأرسل طلبك بسهولة عبر واتساب.</p>
+  </section>
 
-<main class="section">
   <div class="section-title">
     <h2>منتجاتنا</h2>
     <span class="muted" id="productCount"></span>
   </div>
-  <div class="products" id="products"></div>
+
+  <section class="products" id="products"></section>
 </main>
 
-<footer>
-  <strong>RANIN SOUND</strong>
-  <p>كل ما تحتاجه لعالم الصوت</p>
-  <p>للطلب والاستفسار تواصل معنا عبر واتساب</p>
-</footer>
-
-<!-- تسجيل دخول الإدارة -->
-<div class="modal" id="loginModal">
-  <div class="modal-box">
-    <button class="close-btn" data-close="loginModal">×</button>
-    <h2>دخول الإدارة</h2>
-    <form id="loginForm">
-      <div class="field">
-        <label for="username">اسم المستخدم</label>
-        <input id="username" autocomplete="username" required>
-      </div>
-      <div class="field">
-        <label for="password">كلمة المرور</label>
-        <input id="password" type="password" autocomplete="current-password" required>
-      </div>
-      <p id="loginError" class="small-note"></p>
-      <button class="btn-primary" type="submit" style="width:100%">دخول</button>
-    </form>
-  </div>
-</div>
-
-<!-- لوحة الإدارة -->
-<div class="modal" id="adminModal">
-  <div class="modal-box admin-panel">
-    <button class="close-btn" data-close="adminModal">×</button>
-    <h2>لوحة الإدارة</h2>
-    <p class="muted">أضف المنتجات أو عدّلها واحذف ما لم تعد تحتاجه.</p>
-    <button class="btn-primary" id="addProductBtn" style="width:100%;margin-bottom:15px">
-      + إضافة منتج جديد
-    </button>
-    <div id="adminProductList"></div>
-    <p class="small-note">
-      تنبيه: هذه النسخة تحفظ المنتجات والصور في المتصفح الحالي فقط.
-      إذا فتحت الموقع من جهاز آخر، فلن تظهر التغييرات تلقائيًا هناك.
-    </p>
-    <button class="btn-secondary" id="logoutBtn" style="margin-top:12px">تسجيل الخروج</button>
-  </div>
-</div>
-
-<!-- إضافة وتعديل منتج -->
-<div class="modal" id="productFormModal">
-  <div class="modal-box">
-    <button class="close-btn" data-close="productFormModal">×</button>
-    <h2 id="formHeading">إضافة منتج</h2>
-    <form id="productForm">
-      <input id="editId" type="hidden">
-
-      <div class="field">
-        <label for="productName">اسم المنتج</label>
-        <input id="productName" maxlength="100" required>
-      </div>
-
-      <div class="field">
-        <label for="productPrice">السعر بالريال السعودي</label>
-        <input id="productPrice" type="number" min="0" step="0.01" required>
-      </div>
-
-      <div class="field">
-        <label for="productDescription">وصف المنتج</label>
-        <textarea id="productDescription" maxlength="1500"></textarea>
-      </div>
-
-      <div class="field">
-        <label for="productImages">صور المنتج (يمكن اختيار عدة صور)</label>
-        <input id="productImages" type="file" accept="image/*" multiple>
-        <div class="small-note">
-          اختر صورًا واضحة. عند تعديل المنتج يمكنك إضافة صور جديدة،
-          وستبقى الصور القديمة ما لم تحذفها من المعاينة.
-        </div>
-      </div>
-
-      <div id="imagePreview" class="details-thumbs"></div>
-      <p class="small-note" id="imageStatus"></p>
-
-      <div class="form-actions">
-        <button class="btn-primary" type="submit">حفظ المنتج</button>
-        <button class="btn-secondary" type="button" data-close="productFormModal">إلغاء</button>
-      </div>
-    </form>
-  </div>
-</div>
+<footer>RANIN SOUND — جميع الحقوق محفوظة</footer>
 
 <!-- تفاصيل المنتج -->
-<div class="modal" id="detailsModal">
-  <div class="modal-box details-box">
-    <button class="close-btn" data-close="detailsModal">×</button>
-    <div class="details-layout">
+<div class="overlay" id="detailsOverlay" onclick="outsideClose(event,'detailsOverlay')">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h2>تفاصيل المنتج</h2>
+      <button class="close" onclick="closeModal('detailsOverlay')">×</button>
+    </div>
+    <div class="details-grid">
       <div>
-        <img id="detailsImage" class="details-main-image" alt="صورة المنتج" title="اضغط لتكبير الصورة">
-        <div id="detailsThumbs" class="details-thumbs"></div>
-        <p class="small-note">اضغط على الصورة لف��حها بالحجم الكامل.</p>
+        <img id="detailsImage" class="details-main-image" alt="صورة المنتج" onclick="openLightbox()">
+        <div class="thumbnails" id="detailsThumbnails"></div>
       </div>
       <div>
         <h2 id="detailsName"></h2>
+        <div class="product-price" id="detailsPrice"></div>
+        <h3>وصف المنتج</h3>
         <div class="details-description" id="detailsDescription"></div>
-        <div class="price details-price">
-          <span id="detailsPrice"></span>
-          <img class="riyal-symbol" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Saudi_Riyal_Symbol.svg" alt="رمز الريال السعودي" onerror="this.style.display='none';this.ne[...]">
-          <span class="price-fallback">ر.س</span>
-        </div>
-        <button class="order-btn" id="detailsOrder" style="width:100%">اطلب عبر واتساب</button>
+        <div style="height:18px"></div>
+        <button class="btn full" onclick="addDetailsToCart()">أضف إلى السلة 🛒</button>
+        <p class="muted" style="font-size:13px;line-height:1.7">
+          تقدر تضيف هذا المنتج ومنتجات ثانية للسلة، ثم تطلبها كلها مع بعض.
+        </p>
       </div>
     </div>
   </div>
 </div>
 
-<!-- عارض الصورة بالحجم الكامل -->
-<div class="lightbox" id="lightbox" role="dialog" aria-label="عرض الصورة بالحجم الكامل">
-  <button class="lightbox-close" id="lightboxClose" aria-label="إغلاق">×</button>
-  <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="الصورة السابقة">›</button>
-  <img class="lightbox-image" id="lightboxImage" alt="صورة المنتج بالحجم الكامل">
-  <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="الصورة التالية">‹</button>
-  <div class="lightbox-counter" id="lightboxCounter"></div>
+<!-- السلة -->
+<div class="overlay" id="cartOverlay" onclick="outsideClose(event,'cartOverlay')">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h2>سلة المشتريات 🛒</h2>
+      <button class="close" onclick="closeModal('cartOverlay')">×</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="cart-total">
+      <span>الإجمالي</span>
+      <span id="cartTotal">0 ر.س</span>
+    </div>
+    <div class="field">
+      <label for="customerName">اسمك (اختياري)</label>
+      <input id="customerName" placeholder="اكتب اسمك">
+    </div>
+    <div class="field">
+      <label for="customerNotes">ملاحظات الطلب (اختياري)</label>
+      <textarea id="customerNotes" placeholder="أي ملاحظات إضافية"></textarea>
+    </div>
+    <button class="btn full" onclick="checkoutWhatsApp()">إكمال الطلب عبر واتساب</button>
+    <button class="btn secondary full" style="margin-top:9px" onclick="closeModal('cartOverlay')">متابعة التسوق</button>
+  </div>
+</div>
+
+<!-- تسجيل دخول الإدارة -->
+<div class="overlay" id="loginOverlay" onclick="outsideClose(event,'loginOverlay')">
+  <div class="modal small" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h2>دخول الإدارة</h2>
+      <button class="close" onclick="closeModal('loginOverlay')">×</button>
+    </div>
+    <div class="field">
+      <label>اسم المستخدم</label>
+      <input id="adminUsername" autocomplete="username">
+    </div>
+    <div class="field">
+      <label>كلمة المرور</label>
+      <input id="adminPassword" type="password" autocomplete="current-password">
+    </div>
+    <p id="loginError" style="color:#ff7979"></p>
+    <button class="btn full" onclick="loginAdmin()">دخول</button>
+  </div>
+</div>
+
+<!-- لوحة الإدارة -->
+<div class="overlay" id="adminOverlay">
+  <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <h2>لوحة التحكم</h2>
+      <button class="close" onclick="closeModal('adminOverlay')">×</button>
+    </div>
+
+    <div class="notice">
+      تنبيه: هذه النسخة تحفظ المنتجات على الجهاز والمتصفح الحالي فقط.
+      لإدارة منتجات مشتركة بين كل الزوار تحتاج إلى قاعدة بيانات وخدمة خلفية.
+    </div>
+
+    <h3 id="formTitle">إضافة منتج جديد</h3>
+    <form id="productForm" onsubmit="saveProduct(event)">
+      <input id="editProductId" type="hidden">
+
+      <div class="field">
+        <label for="productNameInput">اسم المنتج *</label>
+        <input id="productNameInput" required maxlength="100" placeholder="مثال: سماعة لاسلكية">
+      </div>
+
+      <div class="field">
+        <label for="productPriceInput">السعر بالريال السعودي *</label>
+        <input id="productPriceInput" type="number" min="0" step="0.01" required placeholder="مثال: 150">
+      </div>
+
+      <div class="field">
+        <label for="productDescriptionInput">وصف المنتج</label>
+        <textarea id="productDescriptionInput" maxlength="3000" placeholder="اكتب تفاصيل المنتج هنا"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="productImagesInput">صور المنتج (يمكن اختيار عدة صور)</label>
+        <input id="productImagesInput" type="file" accept="image/*" multiple>
+        <p class="muted" style="font-size:12px">
+          يمكنك تحديد صور متعددة. عند التعديل، اختيار صور جديدة يستبدل الصور القديمة.
+        </p>
+      </div>
+
+      <div id="imagePreview" class="thumbnails"></div>
+
+      <button class="btn full" id="saveProductButton" type="submit">حفظ المنتج</button>
+      <button class="btn secondary full" type="button" style="margin-top:8px" onclick="resetProductForm()">إلغاء التعديل / تفريغ النموذج</button>
+    </form>
+
+    <hr style="border-color:var(--border);margin:25px 0">
+
+    <div class="section-title">
+      <h3>إدارة المنتجات</h3>
+      <span id="adminProductCount" class="muted"></span>
+    </div>
+    <div id="adminProducts"></div>
+  </div>
+</div>
+
+<!-- عرض الصورة بملء الشاشة -->
+<div class="lightbox" id="lightbox" onclick="if(event.target===this)closeLightbox()">
+  <button id="lightboxClose" onclick="closeLightbox()">×</button>
+  <button id="lightboxPrev" onclick="changeLightbox(-1)">❮</button>
+  <img id="lightboxImage" alt="صورة مكبرة">
+  <button id="lightboxNext" onclick="changeLightbox(1)">❯</button>
 </div>
 
 <script>
 "use strict";
 
-/* الإعدادات */
+/* إعدادات المتجر */
 const WHATSAPP_NUMBER = "966504222609";
 const ADMIN_USERNAME = "hashem";
 const ADMIN_PASSWORD = "hashem0599";
-const STORAGE_KEY = "raninSoundProductsV2";
 
-let isAdmin = false;
-let products = loadProducts();
-let selectedImages = [];
-let activeDetailsId = null;
-let activeDetailsImageIndex = 0;
-let lightboxProductId = null;
-let lightboxImageIndex = 0;
+/* البيانات */
+const STORAGE_PRODUCTS = "ranin_sound_products_v3";
+const STORAGE_CART = "ranin_sound_cart_v3";
 
-const $ = (selector) => document.querySelector(selector);
+let products = loadJSON(STORAGE_PRODUCTS, []);
+let cart = loadJSON(STORAGE_CART, []);
+let activeProductId = null;
+let activeImageIndex = 0;
+let lightboxImages = [];
+let selectedFiles = [];
+let adminLoggedIn = false;
 
-function makeId() {
-  return "p_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-}
-
-function loadProducts() {
+function loadJSON(key, fallback) {
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch (error) {
-    console.error("تعذر تحميل المنتجات:", error);
-    return [];
+    const value = JSON.parse(localStorage.getItem(key));
+    return value ?? fallback;
+  } catch {
+    return fallback;
   }
 }
 
 function saveProducts() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    localStorage.setItem(STORAGE_PRODUCTS, JSON.stringify(products));
     return true;
   } catch (error) {
-    alert("تعذر حفظ المنتجات. قد تكون مساحة التخزين ممتلئة بسبب الصور. جرّب صورًا أصغر.");
-    console.error(error);
+    alert("تعذر حفظ المنتجات. قد تكون الصور كبيرة؛ جرّب صورًا أقل أو أصغر حجمًا.");
     return false;
   }
 }
 
+function saveCart() {
+  try {
+    localStorage.setItem(STORAGE_CART, JSON.stringify(cart));
+  } catch {
+    // لا نوقف المتجر إذا تعذر حفظ السلة.
+  }
+}
+
+function money(value) {
+  return Number(value || 0).toLocaleString("ar-SA", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2
+  }) + " ر.س";
+}
+
 function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>\"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
   })[char]);
 }
 
-function formatPrice(price) {
-  return Number(price).toLocaleString("ar-SA", {
-    maximumFractionDigits: 2
-  });
-}
-
-function riyalHTML(price) {
-  return `
-    <span class="price">
-      <span>${formatPrice(price)}</span>
-      <img class="riyal-symbol"
-        src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Saudi_Riyal_Symbol.svg"
-        alt="رمز الريال السعودي"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
-      <span class="price-fallback">ر.س</span>
-    </span>`;
-}
-
-function openModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.classList.add("open");
-}
-
-function closeModal(id) {
-  const modal = document.getElementById(id);
-  if (modal) modal.classList.remove("open");
+function getProductImage(product) {
+  return product.images?.[0] || "";
 }
 
 function getProduct(id) {
   return products.find(product => product.id === id);
 }
 
-function productImages(product) {
-  if (Array.isArray(product.images) && product.images.length) return product.images;
-  if (product.image) return [product.image];
-  return [];
+function makeId() {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 }
 
-/* عرض المنتجات */
+/* عرض بطاقات المنتجات: الوصف لا يظهر هنا */
 function renderProducts() {
-  const container = $("#products");
-  $("#productCount").textContent = `${products.length} منتجات`;
+  const container = document.getElementById("products");
+  document.getElementById("productCount").textContent =
+    products.length + " منتج";
 
   if (!products.length) {
-    container.innerHTML = `
-      <div class="empty">
-        لا توجد منتجات حاليًا.
-        ${isAdmin ? "يمكنك إضافة أول منتج من لوحة الإدارة." : ""}
-      </div>`;
-    return;
-  }
-
-  container.innerHTML = products.map(product => {
-    const images = productImages(product);
-    const firstImage = images[0];
-
-    return `
-      <article class="product-card" data-product-card="${escapeHTML(product.id)}">
-        <div class="product-image" data-open-product="${escapeHTML(product.id)}">
-          ${
-            firstImage
-              ? `<img src="${firstImage}" alt="${escapeHTML(product.name)}"
-                     data-view-image="${escapeHTML(product.id)}"
-                     loading="lazy">`
-              : `<div class="no-image">لا توجد صورة<br>اضغط للتفاصيل</div>`
-          }
-          ${firstImage ? `<span class="image-hint">اضغط لتكبير الصورة</span>` : ""}
-        </div>
-
-        <div class="product-info">
-          <h3 class="product-name" data-open-product="${escapeHTML(product.id)}">
-            ${escapeHTML(product.name)}
-          </h3>
-          <div class="product-description">${escapeHTML(product.description || "لا يوجد وصف للمنتج.")}</div>
-          <div class="product-bottom">
-            ${riyalHTML(product.price)}
-            <button class="order-btn" data-order="${escapeHTML(product.id)}">اطلب الآن</button>
-          </div>
-          ${
-            isAdmin ? `
-              <div class="admin-controls">
-                <button class="btn-secondary" data-edit="${escapeHTML(product.id)}">تعديل</button>
-                <button class="btn-danger" data-delete="${escapeHTML(product.id)}">حذف</button>
-              </div>`
-            : ""
-          }
-        </div>
-      </article>`;
-  }).join("");
-}
-
-/* واتساب */
-function orderProduct(id) {
-  const product = getProduct(id);
-  if (!product) return;
-
-  const message =
-    `السلام عليكم، أرغب بطلب المنتج التالي:\n` +
-    `المنتج: ${product.name}\n` +
-    `السعر: ${formatPrice(product.price)} ريال سعودي`;
-
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank", "noopener,noreferrer");
-}
-
-/* تسجيل دخول الإدارة */
-$("#adminBtn").addEventListener("click", () => {
-  if (isAdmin) {
-    renderAdminProducts();
-    openModal("adminModal");
-  } else {
-    $("#loginError").textContent = "";
-    $("#loginForm").reset();
-    openModal("loginModal");
-  }
-});
-
-$("#loginForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  if ($("#username").value.trim() === ADMIN_USERNAME &&
-      $("#password").value === ADMIN_PASSWORD) {
-    isAdmin = true;
-    closeModal("loginModal");
-    renderProducts();
-    renderAdminProducts();
-    openModal("adminModal");
-  } else {
-    $("#loginError").textContent = "اسم المستخدم أو كلمة المرور غير صحيحة.";
-  }
-});
-
-$("#logoutBtn").addEventListener("click", () => {
-  isAdmin = false;
-  closeModal("adminModal");
-  renderProducts();
-});
-
-/* قائمة المنتجات في الإدارة */
-function renderAdminProducts() {
-  const container = $("#adminProductList");
-
-  if (!products.length) {
-    container.innerHTML = `<p class="muted">لا توجد منتجات لإدارتها.</p>`;
+    container.innerHTML = '<div class="empty">لا توجد منتجات حاليًا. أضف منتجات من لوحة التحكم.</div>';
     return;
   }
 
   container.innerHTML = products.map(product => `
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--border)">
-      <div style="min-width:0">
-        <strong>${escapeHTML(product.name)}</strong>
-        <div class="muted" style="margin-top:5px">${formatPrice(product.price)} ريال</div>
+    <article class="product-card">
+      <img class="product-image"
+        src="${escapeHTML(getProductImage(product))}"
+        alt="${escapeHTML(product.name)}"
+        onclick="openDetails('${product.id}')"
+        onerror="this.style.visibility='hidden'">
+
+      <div class="product-info">
+        <h3 class="product-name">${escapeHTML(product.name)}</h3>
+        <div class="product-price">${money(product.price)}</div>
+        <div class="product-actions">
+          <button class="btn secondary" onclick="openDetails('${product.id}')">عرض التفاصيل</button>
+          <button class="btn" onclick="quickAdd('${product.id}')">أضف للسلة</button>
+        </div>
       </div>
-      <button class="btn-secondary" data-edit="${escapeHTML(product.id)}">تعديل</button>
-    </div>
+    </article>
   `).join("");
 }
 
-/* إضافة / تعديل */
-$("#addProductBtn").addEventListener("click", () => {
-  openProductForm(null);
-});
+/* تفاصيل المنتج */
+function openDetails(id) {
+  const product = getProduct(id);
+  if (!product) return;
 
-function openProductForm(id) {
-  $("#productForm").reset();
-  $("#editId").value = "";
-  selectedImages = [];
-  $("#imagePreview").innerHTML = "";
-  $("#imageStatus").textContent = "";
+  activeProductId = id;
+  activeImageIndex = 0;
 
-  const product = id ? getProduct(id) : null;
+  document.getElementById("detailsName").textContent = product.name;
+  document.getElementById("detailsPrice").textContent = money(product.price);
+  document.getElementById("detailsDescription").textContent =
+    product.description || "لا يوجد وصف لهذا المنتج.";
 
-  if (product) {
-    $("#formHeading").textContent = "تعديل المنتج";
-    $("#editId").value = product.id;
-    $("#productName").value = product.name || "";
-    $("#productPrice").value = product.price;
-    $("#productDescription").value = product.description || "";
-    selectedImages = [...productImages(product)];
-    renderImagePreview();
-    $("#imageStatus").textContent = "يمكنك حذف صورة باستخدام علامة × أو إضافة صور جديدة.";
+  renderDetailsImages(product);
+  showModal("detailsOverlay");
+}
+
+function renderDetailsImages(product) {
+  const images = product.images?.length ? product.images : [""];
+  const mainImage = document.getElementById("detailsImage");
+  mainImage.src = images[activeImageIndex] || "";
+  mainImage.style.visibility = images[activeImageIndex] ? "visible" : "hidden";
+
+  const thumbs = document.getElementById("detailsThumbnails");
+  thumbs.innerHTML = images.map((image, index) => `
+    <img class="thumbnail ${index === activeImageIndex ? "active" : ""}"
+      src="${escapeHTML(image)}"
+      alt="صورة ${index + 1}"
+      onclick="selectDetailsImage(${index})">
+  `).join("");
+}
+
+function selectDetailsImage(index) {
+  const product = getProduct(activeProductId);
+  if (!product || !product.images?.length) return;
+  activeImageIndex = index;
+  renderDetailsImages(product);
+}
+
+function addDetailsToCart() {
+  if (activeProductId) quickAdd(activeProductId);
+}
+
+function quickAdd(id) {
+  const product = getProduct(id);
+  if (!product) return;
+
+  const line = cart.find(item => item.productId === id);
+  if (line) {
+    line.quantity += 1;
   } else {
-    $("#formHeading").textContent = "إضافة منتج جديد";
+    cart.push({ productId:id, quantity:1 });
   }
 
-  closeModal("adminModal");
-  openModal("productFormModal");
+  saveCart();
+  renderCartCount();
+  alert("تمت إضافة المنتج إلى السلة. تقدر تكمل التسوق وتضيف منتجات أخرى.");
 }
 
-function renderImagePreview() {
-  $("#imagePreview").innerHTML = selectedImages.map((src, index) => `
-    <div style="position:relative;flex:0 0 72px">
-      <img src="${src}" alt="معاينة الصورة ${index + 1}"
-        style="width:72px;height:72px;object-fit:cover;border-radius:8px">
-      <button type="button" data-remove-image="${index}"
-        style="position:absolute;top:-5px;left:-5px;width:25px;height:25px;padding:0;background:#b52b31;color:white;border-radius:50%">×</button>
+/* السلة متعددة المنتجات */
+function renderCartCount() {
+  const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+  document.getElementById("cartCount").textContent = count;
+}
+
+function cleanCart() {
+  cart = cart.filter(item => getProduct(item.productId) && item.quantity > 0);
+  saveCart();
+}
+
+function cartTotalValue() {
+  return cart.reduce((sum, item) => {
+    const product = getProduct(item.productId);
+    return sum + (product ? Number(product.price) * item.quantity : 0);
+  }, 0);
+}
+
+function renderCart() {
+  cleanCart();
+  const container = document.getElementById("cartItems");
+
+  if (!cart.length) {
+    container.innerHTML = '<div class="empty">سلتك فارغة. ارجع للمتجر وأضف المنتجات التي تريدها.</div>';
+  } else {
+    container.innerHTML = cart.map(item => {
+      const product = getProduct(item.productId);
+      if (!product) return "";
+
+      return `
+        <div class="cart-line">
+          <img src="${escapeHTML(getProductImage(product))}" alt="">
+          <div>
+            <div class="cart-name">${escapeHTML(product.name)}</div>
+            <div class="muted">${money(product.price)} للقطعة</div>
+            <div class="qty-controls">
+              <button onclick="changeQuantity('${product.id}',1)" aria-label="زيادة الكمية">+</button>
+              <span>${item.quantity}</span>
+              <button onclick="changeQuantity('${product.id}',-1)" aria-label="تقليل الكمية">−</button>
+              <button class="btn danger" style="padding:6px 8px;font-size:12px" onclick="removeFromCart('${product.id}')">حذف</button>
+            </div>
+          </div>
+          <div class="line-price">${money(Number(product.price) * item.quantity)}</div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  document.getElementById("cartTotal").textContent = money(cartTotalValue());
+  renderCartCount();
+}
+
+function changeQuantity(id, change) {
+  const item = cart.find(line => line.productId === id);
+  if (!item) return;
+
+  item.quantity += change;
+  if (item.quantity <= 0) {
+    cart = cart.filter(line => line.productId !== id);
+  }
+
+  saveCart();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(item => item.productId !== id);
+  saveCart();
+  renderCart();
+}
+
+function openCart() {
+  renderCart();
+  showModal("cartOverlay");
+}
+
+/* إرسال الطلب عبر واتساب */
+function checkoutWhatsApp() {
+  cleanCart();
+
+  if (!cart.length) {
+    alert("السلة فارغة. أضف منتجًا واحدًا على الأقل.");
+    return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const notes = document.getElementById("customerNotes").value.trim();
+
+  let message = "السلام عليكم، أرغب في طلب المنتجات التالية من RANIN SOUND:\n\n";
+
+  cart.forEach((item, index) => {
+    const product = getProduct(item.productId);
+    if (!product) return;
+
+    message += `${index + 1}. ${product.name}\n`;
+    message += `الكمية: ${item.quantity}\n`;
+    message += `سعر القطعة: ${money(product.price)}\n`;
+    message += `المجموع: ${money(Number(product.price) * item.quantity)}\n\n`;
+  });
+
+  message += `إجمالي الطلب: ${money(cartTotalValue())}\n`;
+  if (name) message += `اسم العميل: ${name}\n`;
+  if (notes) message += `ملاحظات: ${notes}\n`;
+  message += "\nفضلاً تأكيد الطلب والتفاصيل.";
+
+  const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message);
+  window.open(url, "_blank");
+
+  // لا تُفرغ السلة تلقائيًا حتى لا يفقد العميل طلبه قبل التأكيد.
+}
+
+/* تسجيل الدخول للوحة التحكم */
+function openAdminLogin() {
+  if (adminLoggedIn) {
+    renderAdminProducts();
+    showModal("adminOverlay");
+  } else {
+    document.getElementById("loginError").textContent = "";
+    document.getElementById("adminUsername").value = "";
+    document.getElementById("adminPassword").value = "";
+    showModal("loginOverlay");
+  }
+}
+
+function loginAdmin() {
+  const username = document.getElementById("adminUsername").value;
+  const password = document.getElementById("adminPassword").value;
+
+  if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+    adminLoggedIn = true;
+    closeModal("loginOverlay");
+    renderAdminProducts();
+    showModal("adminOverlay");
+  } else {
+    document.getElementById("loginError").textContent = "اسم المستخدم أو كلمة المرور غير صحيحة.";
+  }
+}
+
+/* لوحة إدارة المنتجات */
+function renderAdminProducts() {
+  document.getElementById("adminProductCount").textContent =
+    products.length + " منتج";
+
+  const container = document.getElementById("adminProducts");
+
+  if (!products.length) {
+    container.innerHTML = '<div class="empty">لا توجد منتجات. استخدم النموذج لإضافة منتج.</div>';
+    return;
+  }
+
+  container.innerHTML = products.map(product => `
+    <div class="admin-product">
+      <img src="${escapeHTML(getProductImage(product))}" alt="">
+      <div class="admin-product-info">
+        <strong>${escapeHTML(product.name)}</strong>
+        <div class="muted">${money(product.price)}</div>
+        <div class="muted" style="font-size:12px">${product.images?.length || 0} صورة</div>
+      </div>
+      <div class="admin-product-actions">
+        <button class="btn secondary" onclick="editProduct('${product.id}')">تعديل</button>
+        <button class="btn danger" onclick="deleteProduct('${product.id}')">حذف</button>
+      </div>
     </div>
   `).join("");
 }
 
-$("#productImages").addEventListener("change", async event => {
-  const files = Array.from(event.target.files || []);
-  if (!files.length) return;
+function editProduct(id) {
+  const product = getProduct(id);
+  if (!product) return;
 
-  $("#imageStatus").textContent = "جارٍ تجهيز الصور...";
+  document.getElementById("editProductId").value = id;
+  document.getElementById("productNameInput").value = product.name;
+  document.getElementById("productPriceInput").value = product.price;
+  document.getElementById("productDescriptionInput").value = product.description || "";
+  document.getElementById("productImagesInput").value = "";
+  document.getElementById("formTitle").textContent = "تعديل المنتج";
+  document.getElementById("saveProductButton").textContent = "حفظ التعديلات";
+  selectedFiles = [];
 
-  try {
-    for (const file of files) {
-      if (!file.type.startsWith("image/")) continue;
-      if (selectedImages.length >= 10) {
-        alert("الحد الأقصى هو 10 صور لكل منتج.");
-        break;
-      }
+  document.getElementById("imagePreview").innerHTML = (product.images || []).map(image => `
+    <img class="thumbnail" src="${escapeHTML(image)}" alt="الصورة الحالية">
+  `).join("");
 
-      const compressed = await compressImage(file);
-      selectedImages.push(compressed);
-    }
+  document.getElementById("productForm").scrollIntoView({behavior:"smooth"});
+}
 
-    renderImagePreview();
-    $("#imageStatus").textContent = `عدد الصور: ${selectedImages.length} من 10`;
-  } catch (error) {
-    console.error(error);
-    alert("تعذر قراءة إحدى الصور. جرّب صورة أخرى.");
-    $("#imageStatus").textContent = "تعذر تجهيز الصورة.";
-  }
+function deleteProduct(id) {
+  const product = getProduct(id);
+  if (!product) return;
 
-  event.target.value = "";
-});
+  if (!confirm(`هل تريد حذف المنتج "${product.name}"؟`)) return;
 
+  products = products.filter(item => item.id !== id);
+  cart = cart.filter(item => item.productId !== id);
+
+  if (!saveProducts()) return;
+  saveCart();
+  renderProducts();
+  renderAdminProducts();
+  renderCartCount();
+  resetProductForm();
+}
+
+function resetProductForm() {
+  document.getElementById("productForm").reset();
+  document.getElementById("editProductId").value = "";
+  document.getElementById("formTitle").textContent = "إضافة منتج جديد";
+  document.getElementById("saveProductButton").textContent = "حفظ المنتج";
+  document.getElementById("imagePreview").innerHTML = "";
+  selectedFiles = [];
+}
+
+/* ضغط الصور لتقليل استهلاك مساحة التخزين */
 function compressImage(file) {
   return new Promise((resolve, reject) => {
+    if (!file.type.startsWith("image/")) {
+      reject(new Error("الملف ليس صورة"));
+      return;
+    }
+
     const reader = new FileReader();
 
-    reader.onerror = () => reject(new Error("تعذر قراءة الملف"));
+    reader.onerror = () => reject(new Error("تعذرت قراءة الصورة"));
 
     reader.onload = () => {
       const img = new Image();
 
-      img.onerror = () => reject(new Error("ملف الصورة غير صالح"));
+      img.onerror = () => reject(new Error("تعذر فتح الصورة"));
 
       img.onload = () => {
-        const maxDimension = 1400;
+        const maxDimension = 1200;
         const scale = Math.min(1, maxDimension / Math.max(img.width, img.height));
         const canvas = document.createElement("canvas");
 
         canvas.width = Math.max(1, Math.round(img.width * scale));
         canvas.height = Math.max(1, Math.round(img.height * scale));
 
-        const context = canvas.getContext("2d");
-        context.drawImage(img, 0, 0, canvas.width, canvas.height);
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
 
-        resolve(canvas.toDataURL("image/jpeg", 0.82));
+        resolve(canvas.toDataURL("image/jpeg", 0.78));
       };
 
       img.src = reader.result;
@@ -962,41 +899,157 @@ function compressImage(file) {
   });
 }
 
-$("#productForm").addEventListener("submit", event => {
+document.getElementById("productImagesInput").addEventListener("change", event => {
+  selectedFiles = Array.from(event.target.files || []).slice(0, 10);
+
+  const preview = document.getElementById("imagePreview");
+  preview.innerHTML = "";
+
+  selectedFiles.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const image = document.createElement("img");
+      image.className = "thumbnail";
+      image.src = reader.result;
+      image.alt = "معاينة";
+      preview.appendChild(image);
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+async function saveProduct(event) {
   event.preventDefault();
 
-  const id = $("#editId").value;
-  const name = $("#productName").value.trim();
-  const price = Number($("#productPrice").value);
-  const description = $("#productDescription").value.trim();
+  if (!adminLoggedIn) {
+    alert("يرجى تسجيل الدخول إلى لوحة التحكم.");
+    return;
+  }
+
+  const id = document.getElementById("editProductId").value;
+  const name = document.getElementById("productNameInput").value.trim();
+  const price = Number(document.getElementById("productPriceInput").value);
+  const description = document.getElementById("productDescriptionInput").value.trim();
 
   if (!name || !Number.isFinite(price) || price < 0) {
-    alert("تأكد من اسم المنتج والسعر.");
+    alert("تأكد من إدخال اسم وسعر صحيحين.");
     return;
   }
 
-  const previous = id ? getProduct(id) : null;
+  const button = document.getElementById("saveProductButton");
+  button.disabled = true;
+  button.textContent = "جارٍ حفظ المنتج...";
 
-  const newProduct = {
-    id: id || makeId(),
-    name,
-    price,
-    description,
-    images: [...selectedImages],
-    updatedAt: new Date().toISOString()
-  };
+  try {
+    let images = [];
 
-  const oldProducts = [...products];
+    if (selectedFiles.length) {
+      images = await Promise.all(selectedFiles.map(compressImage));
+    } else if (id) {
+      images = getProduct(id)?.images || [];
+    }
 
-  if (previous) {
-    products = products.map(product => product.id === id ? newProduct : product);
-  } else {
-    products.unshift(newProduct);
+    const product = {
+      id: id || makeId(),
+      name,
+      price,
+      description,
+      images
+    };
+
+    const oldProducts = [...products];
+
+    if (id) {
+      products = products.map(item => item.id === id ? product : item);
+    } else {
+      products.unshift(product);
+    }
+
+    if (!saveProducts()) {
+      products = oldProducts;
+      return;
+    }
+
+    renderProducts();
+    renderAdminProducts();
+    resetProductForm();
+    alert("تم حفظ المنتج بنجاح.");
+  } catch (error) {
+    console.error(error);
+    alert("تعذر حفظ الصور. جرّب صورًا أقل أو صورًا بحجم أصغر.");
+  } finally {
+    button.disabled = false;
+    button.textContent = document.getElementById("editProductId").value
+      ? "حفظ التعديلات"
+      : "حفظ المنتج";
+  }
+}
+
+/* عرض الصور بالحجم الكامل */
+function openLightbox() {
+  const product = getProduct(activeProductId);
+  if (!product || !product.images?.length) return;
+
+  lightboxImages = product.images;
+  activeImageIndex = Math.min(activeImageIndex, lightboxImages.length - 1);
+
+  updateLightbox();
+  document.getElementById("lightbox").classList.add("show");
+}
+
+function updateLightbox() {
+  if (!lightboxImages.length) return;
+
+  document.getElementById("lightboxImage").src = lightboxImages[activeImageIndex];
+  document.getElementById("lightboxPrev").style.display =
+    lightboxImages.length > 1 ? "block" : "none";
+  document.getElementById("lightboxNext").style.display =
+    lightboxImages.length > 1 ? "block" : "none";
+}
+
+function changeLightbox(direction) {
+  if (!lightboxImages.length) return;
+
+  activeImageIndex =
+    (activeImageIndex + direction + lightboxImages.length) % lightboxImages.length;
+
+  updateLightbox();
+}
+
+function closeLightbox() {
+  document.getElementById("lightbox").classList.remove("show");
+}
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeLightbox();
+    document.querySelectorAll(".overlay.show").forEach(element => {
+      element.classList.remove("show");
+    });
   }
 
-  if (!saveProducts()) {
-    products = oldProducts;
-    return;
+  if (document.getElementById("lightbox").classList.contains("show")) {
+    if (event.key === "ArrowLeft") changeLightbox(1);
+    if (event.key === "ArrowRight") changeLightbox(-1);
   }
+});
 
-  closeModal("productFormModal");
+/* أدوات النوافذ */
+function showModal(id) {
+  document.getElementById(id).classList.add("show");
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+}
+
+function outsideClose(event, id) {
+  if (event.target.id === id) closeModal(id);
+}
+
+/* تشغيل المتجر */
+renderProducts();
+renderCartCount();
+</script>
+</body>
+</html>
