@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -59,11 +58,13 @@ header{
 .btn.secondary{background:var(--panel2);color:white;border:1px solid var(--border)}
 .btn.danger{background:var(--danger);color:white}
 .btn.full{width:100%}
-.account-button{
-  height:42px;min-width:42px;border-radius:11px;
-  background:var(--panel2);color:white;border:1px solid var(--border);font-size:21px
+.footer-admin{margin-top:12px}
+.admin-signin{
+  background:transparent;color:var(--muted);border:1px solid var(--border);
+  border-radius:8px;padding:5px 12px;font-size:12px;
+  transition:color .2s,border-color .2s
 }
-.account-button:hover{border-color:var(--accent)}
+.admin-signin:hover{border-color:var(--accent);color:var(--accent)}
 .cart-badge{
   display:inline-flex;min-width:21px;height:21px;align-items:center;
   justify-content:center;border-radius:50%;background:#111;color:var(--accent);
@@ -240,7 +241,6 @@ hr{border:0;border-top:1px solid var(--border);margin:25px 0}
       </div>
       <a href="#productsSection">المنتجات</a>
       <a href="#storeFooter">تواصل معنا</a>
-      <button class="account-button" onclick="openAdminLogin()" aria-label="حساب المدير" title="حساب المدير">👤</button>
     </nav>
 
     <div class="header-actions">
@@ -298,6 +298,9 @@ hr{border:0;border-top:1px solid var(--border);margin:25px 0}
 <footer id="storeFooter">
   <strong>RANIN SOUND</strong><br>
   متجر الصوتيات — جميع الحقوق محفوظة
+  <div class="footer-admin" id="footerAdmin" hidden>
+    <button class="admin-signin" type="button" onclick="openAdminLogin()" aria-label="Sign in" title="Sign in">🎤 Sign in</button>
+  </div>
 </footer>
 
 <!-- تفاصيل المنتج -->
@@ -338,7 +341,7 @@ hr{border:0;border-top:1px solid var(--border);margin:25px 0}
 <!-- تسجيل دخول المدير -->
 <div class="overlay" id="loginOverlay" onclick="outsideClose(event,'loginOverlay')">
   <div class="modal small" role="dialog" aria-modal="true" aria-label="دخول المدير">
-    <div class="modal-header"><h2>👤 دخول المدير</h2><button class="close" onclick="closeModal('loginOverlay')">×</button></div>
+    <div class="modal-header"><h2>🎤 Sign in</h2><button class="close" onclick="closeModal('loginOverlay')">×</button></div>
     <div class="notice">سجّل الدخول باستخدام حساب المدير الموجود في Supabase Authentication.</div>
     <div class="field"><label for="adminUsername">البريد الإلكتروني</label><input id="adminUsername" type="email" autocomplete="username" placeholder="البريد الإلكتروني"></div>
     <div class="field"><label for="adminPassword">كلمة المرور</label><input id="adminPassword" type="password" autocomplete="current-password"></div>
@@ -351,7 +354,7 @@ hr{border:0;border-top:1px solid var(--border);margin:25px 0}
 <div class="overlay" id="adminOverlay">
   <div class="modal" role="dialog" aria-modal="true" aria-label="إدارة المتجر">
     <div class="modal-header">
-      <h2>👤 إدارة المتجر</h2>
+      <h2>🎤 إدارة المتجر</h2>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn secondary" onclick="logoutAdmin()">خروج</button>
         <button class="close" onclick="closeModal('adminOverlay')">×</button>
@@ -910,6 +913,9 @@ document.addEventListener("keydown",event=>{
 
 /* تشغيل المتجر */
 async function initStore(){
+  /* زر الدخول يظهر فقط لمن يفتح الرابط مع ?admin */
+  if(new URLSearchParams(location.search).has("admin"))
+    document.getElementById("footerAdmin").hidden=false;
   renderCartCount();
   await loadProducts();
   const {data:{session}}=await db.auth.getSession();
