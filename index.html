@@ -3,316 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رنين للصوتيات | عالم النقاء الصوتي</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>رنين للصوتيات</title>
     <style>
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --dark: #0f172a;
-            --light: #f8fafc;
-            --text-main: #334155;
-            --text-muted: #64748b;
-            --success: #25D366;
-            --success-hover: #20ba56;
-            --accent: #f59e0b;
-        }
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s ease;
         }
 
         body {
-            background-color: var(--light);
-            color: var(--text-main);
-            overflow-x: hidden;
+            background-color: #f5f6fa;
+            color: #333;
         }
 
-        /* الهيدر والواجهة العليا */
-        header {
-            background: linear-gradient(135deg, var(--dark) 0%, #1e1b4b 100%);
+        /* الهيدر العلوي */
+        .header {
+            background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
             color: white;
-            padding: 50px 20px;
             text-align: center;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            padding: 40px 20px;
         }
 
-        .header-logo {
-            font-size: 36px;
-            font-weight: 800;
-            margin-bottom: 12px;
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-        }
-
-        .header-logo i {
-            color: var(--accent);
-        }
-
-        .header-tagline {
-            font-size: 17px;
-            color: #cbd5e1;
-            max-width: 650px;
-            margin: 0 auto 20px auto;
-            line-height: 1.7;
-        }
-
-        /* شريط الكلام التحفيزي */
-        .promo-banner {
-            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            padding: 15px;
-            font-weight: 600;
-            font-size: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             gap: 10px;
-            box-shadow: inset 0 -2px 10px rgba(0,0,0,0.1);
         }
 
-        /* حاوية المنتجات */
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* شريط التميز */
+        .banner {
+            background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
+            color: white;
+            text-align: center;
+            padding: 15px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        /* قسم المنتجات */
         .container {
             max-width: 1200px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: #1e1b4b;
+        }
+
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .product-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
-            border: 1px solid #f1f5f9;
         }
 
         .product-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+            transform: translateY(-5px);
         }
 
-        /* نظام عرض الصور المتعددة (السلايدر) */
-        .slider-container {
-            position: relative;
+        .product-img {
             width: 100%;
-            height: 260px;
-            background-color: #f1f5f9;
-            overflow: hidden;
-        }
-
-        .slider-wrapper {
-            display: flex;
-            width: 100%;
-            height: 100%;
-        }
-
-        .slider-slide {
-            min-width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255,255,255,0.8);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
+            height: 220px;
+            background-color: #e2e8f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            color: var(--dark);
-            z-index: 5;
+            color: #64748b;
+            font-size: 3rem;
         }
 
-        .slider-prev { right: 10px; }
-        .slider-next { left: 10px; }
-
-        .slider-dots {
-            position: absolute;
-            bottom: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 6px;
-            z-index: 5;
-        }
-
-        .slider-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.4);
-            cursor: pointer;
-        }
-
-        .slider-dot.active {
-            background: white;
-            width: 16px;
-            border-radius: 4px;
-        }
-
-        /* تفاصيل المنتج المعروض */
         .product-info {
-            padding: 24px;
+            padding: 20px;
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
-            flex-grow: 1;
+            justify-content: space-between;
         }
 
         .product-title {
-            font-size: 19px;
-            font-weight: 700;
-            color: var(--dark);
+            font-size: 1.2rem;
+            color: #1e1b4b;
             margin-bottom: 10px;
         }
 
         .product-desc {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex-grow: 1;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 15px;
+            line-height: 1.5;
         }
 
         .product-price {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary);
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #a855f7;
             margin-bottom: 15px;
         }
 
-        .product-price span {
-            font-size: 13px;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .order-btn {
-            background-color: var(--success);
+        /* زر الواتساب */
+        .btn-whatsapp {
+            display: block;
+            background-color: #25d366;
             color: white;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: 700;
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2);
-        }
-
-        .order-btn:hover { background-color: var(--success-hover); }
-
-        /* زر دخول التاجر العلوي */
-        .admin-trigger {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 8px 16px;
+            padding: 12px;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
         }
 
-        .admin-trigger:hover { background: white; color: var(--dark); }
-
-        /* النوافذ المنبثقة (التاجر والتحكم) */
-        .modal {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(5px);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; pointer-events: none; z-index: 100;
+        .btn-whatsapp:hover {
+            background-color: #1cbd57;
         }
 
-        .modal.active { opacity: 1; pointer-events: auto; }
-
-        .modal-content {
-            background: white; padding: 30px; border-radius: 24px;
-            width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto;
+        /* الفوتر */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+            background-color: #1e1b4b;
+            color: white;
+            font-size: 0.9rem;
         }
-
-        .modal-header {
-            font-size: 20px; font-weight: 700; margin-bottom: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .close-modal { background: none; border: none; font-size: 22px; cursor: pointer; color: var(--text-muted); }
-
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 14px; }
-        .form-control { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; outline: none; font-size: 15px; }
-        .form-control:focus { border-color: var(--primary); }
-        .btn-submit { background-color: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 10px; font-weight: 700; cursor: pointer; }
-        
-        .delete-btn { background-color: #ef4444; color: white; border: none; padding: 8px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; margin-top: 10px; }
-        .delete-btn:hover { background-color: #dc2626; }
-        .empty-state { text-align: center; padding: 60px 20px; grid-column: 1 / -1; color: var(--text-muted); }
-        footer { background-color: var(--dark); color: #94a3b8; text-align: center; padding: 25px; margin-top: 60px; font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <button class="admin-trigger" onclick="openLoginModal()"><i class="fa-solid fa-user-gear"></i> لوحة التاجر</button>
-
-    <header>
-        <div class="header-logo">
-            <i class="fa-solid fa-volume-high"></i>
-            <span>رنين للصوتيات</span>
-        </div>
-        <p class="header-tagline">نمنحك التجربة الصوتية المثالية والنقاء الذي تستحقه لترتقي بكل تفاصيل استماعك اليومي.</p>
-    </header>
-
-    <div class="promo-banner">
-        <i class="fa-solid fa-circle-check"></i>
-        <span>التميز ليس صدفة! قطع صوتية أصلية بضمان حقيقي وأداء مذهل. اختر منتجك واطلبه فوراً عبر الواتساب لتجربة تسوق لا تُنسى!</span>
+    <!-- الهيدر العلوي -->
+    <div class="header">
+        <h1>📢 رنين للصوتيات</h1>
+        <p>نمنحك التجربة الصوتية المثالية والنقاء الذي تستحقه لترتقي بكل تفاصيل استماعك اليومي.</p>
     </div>
 
+    <!-- شريط التميز -->
+    <div class="banner">
+        التميز ليس صدفة! قطع صوتية أصلية بضمان حقيقي وأداء مذهل. اختر منتجك واطلبه فوراً عبر الواتساب لتجربة تسوق لا تُنسى! ✓
+    </div>
+
+    <!-- المحتوى والمنتجات -->
     <div class="container">
-        <div class="products-grid" id="productsContainer">
-            <!-- المنتجات تظهر هنا -->
+        <h2 class="section-title">أحدث المنتجات الصوتية</h2>
+        
+        <div class="products-grid">
+            
+            <!-- منتج 1 -->
+            <div class="product-card">
+                <div class="product-img">🎧</div>
+                <div class="product-info">
+                    <h3 class="product-title">سماعة رأس محيطية لاسلكية</h3>
+                    <p class="product-desc">عزل صوتي كامل (ANC) مع بطارية تدوم حتى 40 ساعة متواصلة ونقاء صوتي فائق.</p>
+                    <div class="product-price">299 ر.س</div>
+                    <!-- استبدل رقم الهاتف بعد phone= برقمك مباشرة ليوجه العميل إليك -->
+                    <a href="https://wa.me" target="_blank" class="btn-whatsapp">اطلب عبر الواتساب</a>
+                </div>
+            </div>
+
+            <!-- منتج 2 -->
+            <div class="product-card">
+                <div class="product-img">🎙️</div>
+                <div class="product-info">
+                    <h3 class="product-title">ميكروفون احترافي للبث والبودكاست</h3>
+                    <p class="product-desc">تسجيل نقي للغاية مع ميزة تصفية الضوضاء المحيطية، يوصل مباشرة عبر الـ USB.</p>
+                    <div class="product-price">350 ر.س</div>
+                    <a href="https://wa.me" target="_blank" class="btn-whatsapp">اطلب عبر الواتساب</a>
+                </div>
+            </div>
+
+            <!-- منتج 3 -->
+            <div class="product-card">
+                <div class="product-img">🔊</div>
+                <div class="product-info">
+                    <h3 class="product-title">مكبر صوت بلوتوث متنقل</h3>
+                    <p class="product-desc">مقاوم للماء والغبار بصوت قوي جداً وتوزيع مجسم 360 درجة، مثالي للرحلات.</p>
+                    <div class="product-price">180 ر.س</div>
+                    <a href="https://wa.me" target="_blank" class="btn-whatsapp">اطلب عبر الواتساب</a>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- نافذة تسجيل الدخول -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span>تسجيل دخول التاجر (هاشم)</span>
-                <button class="close-modal" onclick="closeModal('loginModal')">&times;</button>
-            </div>
-            <div class="form-group">
-                <label>اسم المستخدم</label>
-                <input type="text" id="username" class="form-control" placeholder="hashem">
-            </div>
-            <div class="form-group">
-                <label>كلمة المرور</label>
-                <input type="password" id="password" class="form-control" placeholder="••••••••">
-            </div>
+    <!-- الفوتر -->
+    <div class="footer">
+        &copy; 2026 متجر رنين للصوتيات. جميع الحقوق محفوظة.
+    </div>
+
+</body>
+</html>
