@@ -1,1 +1,21 @@
+backend:
+  name: github
+  repo: gamerhashem892-lab/copilot-store-2026
+  branch: main
+
+media_folder: "images" # المجلد الذي ستُحفظ فيه صور المنتجات تلقائياً
+public_folder: "images"
+
+collections:
+  - name: "products"
+    label: "المنتجات"
+    folder: "_products" # المجلد الذي ستُحفظ فيه بيانات المنتجات
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "اسم المنتج", name: "title", widget: "string" }
+      - { label: "السعر (ر.س)", name: "price", widget: "number" }
+      - { label: "وصف المنتج", name: "description", widget: "text" }
+      - { label: "رابط الواتساب للطلب", name: "whatsapp_link", widget: "string" }
+      - { label: "صور المنتج", name: "images", widget: "list", field: { label: "صورة", name: "image", widget: "image" } }
 
