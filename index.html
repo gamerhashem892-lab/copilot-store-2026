@@ -1,338 +1,1062 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رنين للصوتيات</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<title> Ranin Sound | عالم الصوت</title>
 
-        body {
-            background-color: #f5f6fa;
-            color: #333;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
 
-        /* الهيدر العلوي */
-        .header {
-            background: linear-gradient(135deg, #1e1b4b 0%, #311042 100%);
-            color: white;
-            text-align: center;
-            padding: 40px 20px;
-        }
+:root {
+  --bg: #0b1020;
+  --panel: #121a2e;
+  --panel2: #18223a;
+  --text: #f5f7ff;
+  --muted: #9aa7c2;
+  --purple: #8b5cf6;
+  --blue: #38bdf8;
+  --border: rgba(255,255,255,.09);
+}
 
-        .header h1 {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
+* { box-sizing: border-box; }
 
-        .header p {
-            font-size: 1.1rem;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+body {
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
 
-        /* شريط التميز */
-        .banner {
-            background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%);
-            color: white;
-            text-align: center;
-            padding: 15px 20px;
-            font-size: 1rem;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
 
-        /* قسم المنتجات */
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+a { color: inherit; text-decoration: none; }
 
-        .section-title {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.8rem;
-            color: #1e1b4b;
-        }
+.container {
+  width: min(1160px, 92%);
+  margin: auto;
+}
 
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(11,16,32,.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+}
 
-        .product-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
+.nav {
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 12px 0;
+}
 
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-        .product-img {
-            width: 100%;
-            height: 220px;
-            background-color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #64748b;
-            font-size: 3rem;
-            background-size: cover;
-            background-position: center;
-        }
+.brand-icon {
+  width: 45px;
+  height: 45px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  font-size: 23px;
+  background: linear-gradient(135deg,var(--purple),var(--blue));
+  box-shadow: 0 5px 25px #8b5cf633;
+}
 
-        .product-info {
-            padding: 20px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+.brand-name {
+  font-size: 19px;
+  font-weight: 900;
+  letter-spacing: .5px;
+}
 
-        .product-title {
-            font-size: 1.2rem;
-            color: #1e1b4b;
-            margin-bottom: 10px;
-        }
+.brand-name small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
 
-        .product-desc {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-bottom: 15px;
-            line-height: 1.5;
-            height: 60px;
-            overflow: hidden;
-        }
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
 
-        .product-price {
-            font-size: 1.3rem;
-            font-weight: bold;
-            color: #a855f7;
-            margin-bottom: 15px;
-        }
+.btn {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: var(--text);
+  background: var(--panel2);
+  font-weight: 700;
+  transition: .2s;
+}
 
-        /* زر الواتساب */
-        .btn-whatsapp {
-            display: block;
-            background-color: #25d366;
-            color: white;
-            text-align: center;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
+.btn:hover { transform: translateY(-2px); }
 
-        .btn-whatsapp:hover {
-            background-color: #1cbd57;
-        }
+.btn-primary {
+  background: linear-gradient(120deg,var(--purple),#6478ff);
+  border: 0;
+  box-shadow: 0 5px 22px #8b5cf622;
+}
 
-        /* الفوتر */
-        .footer {
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 60px;
-            background-color: #1e1b4b;
-            color: white;
-            font-size: 0.9rem;
-            position: relative;
-        }
+.btn-whatsapp {
+  background: #123d30;
+  color: #7bf0b2;
+  border-color: #24634a;
+  width: 100%;
+}
 
-        /* زر فتح لوحة التحكم المخفي الأنيق بالفوتر */
-        .btn-open-admin {
-            background: transparent;
-            color: #64748b;
-            border: 1px solid #334155;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin-top: 15px;
-            transition: all 0.3s;
-        }
-        .btn-open-admin:hover {
-            color: #f8fafc;
-            border-color: #6366f1;
-            background-color: #1e293b;
-        }
+.btn-danger {
+  color: #ff9b9b;
+  background: #3a1d2a;
+}
 
-        /* 🛠️ شاشة الـ Popup المنبثقة للوحة التحكم */
-        .admin-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 20px;
-        }
-        .admin-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .admin-modal {
-            background: #1e293b;
-            color: #f8fafc;
-            width: 100%;
-            max-width: 550px;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-            border: 1px solid #475569;
-            position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.5rem;
-            cursor: pointer;
-        }
-        .close-modal:hover { color: #f8fafc; }
-        .admin-modal h2 {
-            margin-bottom: 20px;
-            color: #38bdf8;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-        .form-group {
-            margin-bottom: 15px;
-            text-align: right;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            color: #cbd5e1;
-        }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #475569;
-            background: #334155;
-            color: white;
-            font-size: 1rem;
-        }
-        .admin-btn {
-            background: #6366f1;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            font-size: 1rem;
-            margin-top: 10px;
-        }
-        .admin-btn:hover { background: #4f46e5; }
-        .download-btn { background: #22c55e; margin-top: 15px; }
-        .download-btn:hover { background: #16a34a; }
-        .delete-btn {
-            background: #ef4444;
-            padding: 5px 10px;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-        
-        #managementArea { display: none; }
-    </style>
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 75px 0 65px;
+  background:
+    radial-gradient(ellipse at 85% 15%,#7038e526,transparent 40%),
+    radial-gradient(ellipse at 10% 80%,#0ea5e91b,transparent 35%);
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  align-items: center;
+  gap: 45px;
+}
+
+.eyebrow {
+  display: inline-block;
+  border: 1px solid #8b5cf655;
+  background: #8b5cf618;
+  color: #c7b6ff;
+  padding: 7px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+h1 {
+  font-size: clamp(34px,5vw,57px);
+  line-height: 1.45;
+  margin: 18px 0;
+  font-weight: 900;
+}
+
+.gradient-text {
+  background: linear-gradient(100deg,#b79bff,#63d5ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: var(--muted);
+  line-height: 2;
+  max-width: 540px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+.hero-art {
+  min-height: 310px;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+
+.orbit {
+  width: min(300px,75vw);
+  aspect-ratio: 1;
+  border: 1px solid #8b5cf644;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 70px #8b5cf614,inset 0 0 60px #38bdf80a;
+}
+
+.orbit-inner {
+  width: 75%;
+  height: 75%;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#8b5cf62b,#38bdf81c);
+  display: grid;
+  place-items: center;
+  font-size: 110px;
+  border: 1px solid #ffffff10;
+}
+
+.floating-tag {
+  position: absolute;
+  background: #17213a;
+  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-size: 12px;
+  box-shadow: 0 10px 35px #0003;
+}
+
+.tag-one { top: 35px; right: 0; }
+.tag-two { bottom: 35px; left: 0; }
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+  padding-bottom: 30px;
+}
+
+.feature {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.feature-icon { font-size: 25px; }
+.feature strong { display: block; font-size: 14px; }
+.feature small { color: var(--muted); }
+
+.catalog { padding: 45px 0 80px; }
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.section-heading h2 { font-size: 27px; margin: 0; }
+.section-heading p { color: var(--muted); font-size: 13px; margin: 5px 0; }
+
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.field {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  outline: none;
+  width: 100%;
+}
+
+.field:focus { border-color: var(--purple); }
+
+.search-field { flex: 1; min-width: 180px; }
+.filters select { width: auto; min-width: 145px; }
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 20px;
+}
+
+.product {
+  background: linear-gradient(180deg,#141d32,#101728);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: .25s;
+}
+
+.product:hover {
+  transform: translateY(-5px);
+  border-color: #8b5cf677;
+}
+
+.product-image {
+  height: 215px;
+  position: relative;
+  background: linear-gradient(135deg,#202a45,#171b30);
+  overflow: hidden;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 12px;
+}
+
+.product-placeholder {
+  height: 100%;
+  display: grid;
+  place-items: center;
+  font-size: 75px;
+  background: radial-gradient(circle,#8b5cf625,transparent 65%);
+}
+
+.category-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 5px 10px;
+  background: #0b1020dd;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 10px;
+}
+
+.product-body { padding: 18px; }
+
+.product-body h3 { margin: 0 0 8px; font-size: 17px; }
+
+.product-desc {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+  min-height: 46px;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.product-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.price { font-size: 21px; font-weight: 900; color: #a9f3d0; }
+.currency { font-size: 12px; color: var(--muted); }
+
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.admin-actions button { flex: 1; padding: 8px; font-size: 12px; }
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--panel);
+  border: 1px dashed #ffffff22;
+  border-radius: 20px;
+  color: var(--muted);
+  grid-column: 1/-1;
+}
+
+.empty-icon { font-size: 48px; margin-bottom: 10px; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 28px 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 2;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #050816d9;
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  overflow-y: auto;
+}
+
+.modal.show { display: flex; }
+
+.modal-card {
+  width: min(470px,100%);
+  max-height: 92vh;
+  overflow-y: auto;
+  background: #121a2e;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 25px;
+  box-shadow: 0 25px 100px #0008;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 { font-size: 20px; margin: 0; }
+
+.close {
+  border: 0;
+  background: #ffffff12;
+  color: white;
+  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  font-size: 22px;
+}
+
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 7px; font-size: 13px; }
+.form-group textarea { resize: vertical; min-height: 90px; }
+.form-group small { color: var(--muted); font-size: 11px; }
+
+.full-btn { width: 100%; margin-top: 8px; }
+
+.notice {
+  color: var(--muted);
+  background: #ffffff07;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 1.9;
+  margin-top: 15px;
+}
+
+.toast {
+  position: fixed;
+  z-index: 200;
+  bottom: 20px;
+  right: 50%;
+  transform: translateX(50%);
+  background: #182640;
+  border: 1px solid #ffffff22;
+  padding: 12px 20px;
+  border-radius: 12px;
+  display: none;
+  box-shadow: 0 10px 35px #0005;
+  max-width: 90%;
+  font-size: 13px;
+}
+
+.toast.show { display: block; }
+
+@media(max-width:800px) {
+  .hero-content { grid-template-columns: 1fr; gap: 15px; }
+  .hero { padding-top: 45px; }
+  .hero-art { min-height: 260px; }
+  .features { grid-template-columns: 1fr; }
+  .products { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .product-image { height: 165px; }
+  .product-body { padding: 12px; }
+  .product-body h3 { font-size: 15px; }
+  .product-desc { font-size: 11px; }
+  .price { font-size: 17px; }
+}
+
+@media(max-width:430px) {
+  .products { grid-template-columns: 1fr; }
+  .product-image { height: 220px; }
+  .brand-name { font-size: 16px; }
+  .nav { gap: 8px; }
+  .nav-actions { gap: 6px; }
+  .btn { padding: 9px 11px; font-size: 12px; }
+}
+</style>
 </head>
+
 <body>
 
-    <!-- الهيدر العلوي -->
-    <div class="header">
-        <h1>📢 رنين للصوتيات</h1>
-        <p>نمنحك التجربة الصوتية المثالية والنقاء الذي تستحقه لترتقي بكل تفاصيل استماعك اليومي.</p>
+<header>
+  <div class="container nav">
+    <a class="brand" href="#">
+      <div class="brand-icon">🎧</div>
+      <div class="brand-name">
+        HASHEM AUDIO
+        <small>YOUR SOUND. YOUR WORLD.</small>
+      </div>
+    </a>
+
+    <div class="nav-actions">
+      <button class="btn btn-primary" id="loginBtn"
+        onclick="openLogin()">👤 تسجيل الدخول</button>
+      <button class="btn" id="logoutBtn"
+        onclick="logout()" hidden>تسجيل الخروج</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="container hero-content">
+      <div>
+        <span class="eyebrow">✦ اكتشف عالم الصوت</span>
+        <h1>
+          صوتك يستحق<br>
+          <span class="gradient-text">تجربة مختلفة</span>
+        </h1>
+        <p>
+          اكتشف مجموعتنا من السماعات والمايكات والأجهزة الصوتية،
+          واختر المعدات المناسبة لك واطلبها بسهولة عبر واتساب.
+        </p>
+        <div class="hero-buttons">
+          <a href="#catalog" class="btn btn-primary">اكتشف المنتجات ←</a>
+          <a href="https://wa.me/96654222609"
+             target="_blank" rel="noopener"
+             class="btn">تواصل معنا ↗</a>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <div class="orbit">
+          <div class="orbit-inner">🎧</div>
+        </div>
+        <div class="floating-tag tag-one">🎙️ معدات صوتية مميزة</div>
+        <div class="floating-tag tag-two">♫ اكتشف صوتك</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container features">
+    <div class="feature">
+      <span class="feature-icon">🎧</span>
+      <div><strong>منتجات متنوعة</strong><small>سماعات ومايكات وأكثر</small></div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">💬</span>
+      <div><strong>طلب سهل</strong><small>اطلب مباشرة عبر واتساب</small></div>
+    </div>
+    <div class="feature">
+      <span class="feature-icon">✨</span>
+      <div><strong>تجربة مميزة</strong><small>تصفح المنتجات بسهولة</small></div>
+    </div>
+  </section>
+
+  <section class="container catalog" id="catalog">
+    <div class="section-heading">
+      <div>
+        <h2>منتجاتنا</h2>
+        <p>اختر ما يناسبك من عالم الأجهزة الصوتية.</p>
+      </div>
+      <button id="addBtn" class="btn btn-primary"
+        onclick="openProductForm()" hidden>
+        ＋ إضافة منتج
+      </button>
     </div>
 
-    <!-- شريط التميز -->
-    <div class="banner">
-        التميز ليس صدفة! قطع صوتية أصلية بضمان حقيقي وأداء مذهل. اختر منتجك واطلبه فوراً عبر الواتساب لتجربة تسوق لا تُنسى! ✓
+    <div class="filters">
+      <input id="searchInput" class="field search-field"
+        type="search" placeholder="ابحث عن منتج..."
+        aria-label="ابحث عن منتج">
+
+      <select id="categoryFilter" class="field"
+        aria-label="تصنيف المنتجات">
+        <option value="">كل التصنيفات</option>
+        <option value="سماعات">سماعات</option>
+        <option value="مايكات">مايكات</option>
+        <option value="أجهزة صوتية">أجهزة صوتية</option>
+        <option value="إكسسوارات">إكسسوارات</option>
+      </select>
     </div>
 
-    <!-- المحتوى والمنتجات -->
-    <div class="container">
-        <h2 class="section-title">أحدث المنتجات الصوتية</h2>
-        
-        <!-- الحاوية الأساسية للمنتجات التي سيتم تحديثها تلقائياً -->
-        <div class="products-grid" id="productsGrid"></div>
+    <div id="products" class="products"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="brand" style="justify-content:center;margin-bottom:10px">
+      <div class="brand-icon">🎧</div>
+      <div class="brand-name">HASHEM AUDIO</div>
+    </div>
+    عالم الصوت بين يديك.
+    <br>© <span id="year"></span> HASHEM AUDIO
+  </div>
+</footer>
+
+<!-- نافذة تسجيل الدخول -->
+<div class="modal" id="loginModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2>🔐 تسجيل دخول الإدارة</h2>
+      <button class="close" onclick="closeModal('loginModal')"
+        aria-label="إغلاق">×</button>
     </div>
 
-    <!-- الفوتر -->
-    <div class="footer">
-        <div>&copy; 2026 متجر رنين للصوتيات. جميع الحقوق محفوظة.</div>
-        <!-- الزر المضاف لفتح لوحة التحكم بشكل مخفي وغير مزعج -->
-        <button class="btn-open-admin" onclick="toggleAdminModal(true)">⚙️ دخول لوحة التحكم</button>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">اسم المستخدم</label>
+        <input class="field" id="username" autocomplete="username"
+          required placeholder="أدخل اسم المستخدم">
+      </div>
+
+      <div class="form-group">
+        <label for="password">كلمة المرور</label>
+        <input class="field" id="password" type="password"
+          autocomplete="current-password" required
+          placeholder="أدخل كلمة المرور">
+      </div>
+
+      <button class="btn btn-primary full-btn" type="submit">
+        تسجيل الدخول
+      </button>
+    </form>
+
+    <div class="notice">
+      هذه النسخة للتجربة فقط. تسجيل الدخول فيها ليس حماية حقيقية
+      لأن بيانات الدخول موجودة داخل كود الموقع.
+    </div>
+  </div>
+</div>
+
+<!-- نافذة إضافة وتعديل المنتجات -->
+<div class="modal" id="productModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h2 id="productFormTitle">إضافة منتج جديد</h2>
+      <button class="close" onclick="closeModal('productModal')"
+        aria-label="إغلاق">×</button>
     </div>
 
+    <form id="productForm">
+      <input type="hidden" id="productId">
 
-    <!-- 🛠️ النافذة المنبثقة للوحة التحكم السرية (تظهر فوق المتجر عند الضغط على الزر فقط) -->
-    <div class="admin-overlay" id="adminOverlay">
-        <div class="admin-modal">
-            <button class="close-modal" onclick="toggleAdminModal(false)">✕</button>
-            
-            <!-- 🔑 أولاً: نموذج تسجيل الدخول -->
-            <div id="loginArea">
-                <h2>🔐 تسجيل الدخول للوحة التحكم</h2>
-                <div class="form-group">
-                    <label>اسم المستخدم:</label>
-                    <input type="text" id="usernameInput" placeholder="أدخل اسم المستخدم">
-                </div>
-                <div class="form-group">
-                    <label>كلمة السر:</label>
-                    <input type="password" id="passwordInput" placeholder="أدخل كلمة السر">
-                </div>
-                <button class="admin-btn" onclick="checkLogin()">تسجيل الدخول</button>
-            </div>
+      <div class="form-group">
+        <label for="productName">اسم المنتج</label>
+        <input class="field" id="productName" required
+          maxlength="100" placeholder="مثال: سماعة احترافية">
+      </div>
 
-            <!-- ⚙️ ثانياً: واجهة إدارة المنتجات مدمجة (تظهر بعد الدخول الصحيح) -->
-            <div id="managementArea">
-                <h2>⚙️ لوحة إدارة المنتجات الحالية</h2>
-                
-                <div class="form-group">
-                    <label>اسم المنتج الجديد:</label>
-                    <input type="text" id="prodTitle" placeholder="مثال: سماعة رنين الاحترافية">
-                </div>
-                
-                <div class="form-group">
-                    <label>وصف المنتج:</label>
-                    <textarea id="prodDesc" rows="2" placeholder="اكتب تفاصيل ومميزات المنتج هنا..."></textarea>
-                </div>
+      <div class="form-group">
+        <label for="productCategory">التصنيف</label>
+        <select class="field" id="productCategory" required>
+          <option value="سماعات">سماعات</option>
+          <option value="مايكات">مايكات</option>
+          <option value="أجهزة صوتية">أجهزة صوتية</option>
+          <option value="إكسسوارات">إكسسوارات</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="productPrice">السعر بالريال السعودي</label>
+        <input class="field" id="productPrice" type="number"
+          min="0" max="10000000" step="0.01" required
+          placeholder="مثال: 249">
+      </div>
+
+      <div class="form-group">
+        <label for="productDescription">وصف المنتج</label>
+        <textarea class="field" id="productDescription"
+          maxlength="1500" required
+          placeholder="اكتب مواصفات المنتج ومميزاته..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="productImage">صورة المنتج</label>
+        <input class="field" id="productImage" type="file"
+          accept="image/jpeg,image/png,image/webp">
+        <small>الصيغ المدعومة: JPG وPNG وWebP، بحد أقصى 2 ميجابايت.</small>
+        <div id="imageStatus" class="notice" hidden></div>
+      </div>
+
+      <button class="btn btn-primary full-btn" type="submit">
+        حفظ المنتج
+      </button>
+      <button class="btn full-btn" type="button"
+        onclick="closeModal('productModal')">إلغاء</button>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+// بيانات الدخول للتجربة فقط، وليست نظام مصادقة آمنًا.
+const ADMIN_USER = "hashem";
+const ADMIN_PASS = "hashem0599";
+
+// رقم واتساب بصيغة دولية بدون علامة + أو الصفر المحلي.
+const WHATSAPP_NUMBER = "96654222609";
+
+const STORAGE_KEY = "hashemAudioProducts_v1";
+
+let isAdmin = false;
+let products = [];
+let pendingImage = "";
+let toastTimer;
+
+const $ = id => document.getElementById(id);
+
+function showToast(message) {
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    $("toast").classList.remove("show");
+  }, 3000);
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function loadProducts() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    const parsed = saved ? JSON.parse(saved) : [];
+    products = Array.isArray(parsed) ? parsed.filter(p =>
+      p && typeof p.id === "string" &&
+      typeof p.name === "string" &&
+      typeof p.description === "string" &&
+      typeof p.category === "string" &&
+      Number.isFinite(p.price) &&
+      (typeof p.image === "string" || p.image === "")
+    ) : [];
+  } catch (error) {
+    products = [];
+    showToast("تعذر قراءة المنتجات المحفوظة.");
+  }
+}
+
+function saveProducts() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+    return true;
+  } catch (error) {
+    showToast("مساحة التخزين ممتلئة. استخدم صورًا أصغر.");
+    return false;
+  }
+}
+
+function renderProducts() {
+  const query = $("searchInput").value.trim().toLowerCase();
+  const category = $("categoryFilter").value;
+
+  const filtered = products.filter(p =>
+    (p.name + " " + p.description).toLowerCase().includes(query) &&
+    (!category || p.category === category)
+  );
+
+  const container = $("products");
+
+  if (!filtered.length) {
+    container.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🎧</div>
+        <h3>${products.length ? "ما لقينا منتجات مطابقة" : "المتجر جاهز لاستقبال منتجاتك"}</h3>
+        <p>${products.length
+          ? "جرّب البحث بكلمات مختلفة أو اختر تصنيفًا آخر."
+          : isAdmin
+            ? "اضغط على إضافة منتج وابدأ بعرض منتجاتك."
+            : "نعمل على تجهيز مجموعتنا من الأجهزة الصوتية."}</p>
+        ${isAdmin && !products.length
+          ? '<button class="btn btn-primary" onclick="openProductForm()">＋ أضف أول منتج</button>'
+          : ""}
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => {
+    const image = p.image
+      ? `<img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.name)}" loading="lazy">`
+      : `<div class="product-placeholder" aria-label="لا توجد صورة">🎧</div>`;
+
+    const message = `السلام عليكم، أرغب بطلب المنتج: ${p.name}، السعر: ${p.price} ريال.`;
+    const whatsapp = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    return `
+      <article class="product">
+        <div class="product-image">
+          ${image}
+          <span class="category-badge">${escapeHTML(p.category)}</span>
+        </div>
+        <div class="product-body">
+          <h3>${escapeHTML(p.name)}</h3>
+          <div class="product-desc">${escapeHTML(p.description)}</div>
+          <div class="product-bottom">
+            <div class="price">${p.price.toLocaleString("en-US", {
+              maximumFractionDigits: 2
+            })} <span class="currency">ر.س</span></div>
+          </div>
+          <a class="btn btn-whatsapp" href="${whatsapp}"
+             target="_blank" rel="noopener noreferrer">
+             ☎ اطلب عبر واتساب
+          </a>
+          ${isAdmin ? `
+            <div class="admin-actions">
+              <button class="btn" onclick="editProduct('${p.id}')">✏️ تعديل</button>
+              <button class="btn btn-danger" onclick="deleteProduct('${p.id}')">حذف</button>
+            </div>` : ""}
+        </div>
+      </article>`;
+  }).join("");
+}
+
+function openLogin() {
+  $("loginForm").reset();
+  $("loginModal").classList.add("show");
+}
+
+function closeModal(id) {
+  $(id).classList.remove("show");
+}
+
+function updateAdminUI() {
+  $("loginBtn").hidden = isAdmin;
+  $("logoutBtn").hidden = !isAdmin;
+  $("addBtn").hidden = !isAdmin;
+  renderProducts();
+}
+
+$("loginForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  const user = $("username").value.trim();
+  const pass = $("password").value;
+
+  if (user === ADMIN_USER && pass === ADMIN_PASS) {
+    isAdmin = true;
+    closeModal("loginModal");
+    updateAdminUI();
+    showToast("تم تسجيل الدخول إلى لوحة الإدارة.");
+  } else {
+    showToast("اسم المستخدم أو كلمة المرور غير صحيحة.");
+  }
+});
+
+function logout() {
+  isAdmin = false;
+  updateAdminUI();
+  showToast("تم تسجيل الخروج.");
+}
+
+function openProductForm(id = "") {
+  if (!isAdmin) {
+    showToast("سجّل الدخول أولًا.");
+    return;
+  }
+
+  $("productForm").reset();
+  $("productId").value = id;
+  pendingImage = "";
+
+  const status = $("imageStatus");
+  status.hidden = true;
+  status.textContent = "";
+
+  $("productFormTitle").textContent = id
+    ? "تعديل المنتج"
+    : "إضافة منتج جديد";
+
+  if (id) {
+    const p = products.find(item => item.id === id);
+    if (!p) return;
+
+    $("productName").value = p.name;
+    $("productCategory").value = p.category;
+    $("productPrice").value = p.price;
+    $("productDescription").value = p.description;
+    pendingImage = p.image || "";
+
+    status.hidden = false;
+    status.textContent = p.image
+      ? "توجد صورة محفوظة. اختر صورة جديدة لاستبدالها."
+      : "لم تتم إضافة صورة لهذا المنتج بعد.";
+  }
+
+  $("productModal").classList.add("show");
+}
+
+function editProduct(id) {
+  openProductForm(id);
+}
+
+function deleteProduct(id) {
+  if (!isAdmin) return;
+
+  const p = products.find(item => item.id === id);
+  if (!p) return;
+
+  if (!confirm(`هل تريد حذف المنتج "${p.name}"؟`)) return;
+
+  const oldProducts = products;
+  products = products.filter(item => item.id !== id);
+
+  if (!saveProducts()) {
+    products = oldProducts;
+    renderProducts();
+    return;
+  }
+
+  renderProducts();
+  showToast("تم حذف المنتج.");
+}
+
+$("productImage").addEventListener("change", event => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const status = $("imageStatus");
+  status.hidden = false;
+
+  if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
+    event.target.value = "";
+    status.textContent = "اختر صورة JPG أو PNG أو WebP.";
+    showToast("نوع الصورة غير مدعوم.");
+    return;
+  }
+
+  if (file.size > 2 * 1024 * 1024) {
+    event.target.value = "";
+    status.textContent = "حجم الصورة أكبر من 2 ميجابايت.";
+    showToast("اختر صورة أصغر.");
+    return;
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    const image = new Image();
+
+    image.onload = () => {
+      if (!isAdmin) return;
+
+      // تصغير الصورة لتقليل مساحة التخزين.
+      const maxDimension = 1000;
+      const scale = Math.min(
+        1,
+        maxDimension / Math.max(image.width, image.height)
+      );
+
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(image.width * scale));
+      canvas.height = Math.max(1, Math.round(image.height * scale));
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      pendingImage = canvas.toDataURL("image/jpeg", 0.82);
+      status.textContent = "تم تجهيز الصورة. احفظ المنتج لتثبيتها.";
+    };
+
+    image.onerror = () => {
+      status.textContent = "تعذر قراءة الصورة.";
+    };
+
+    image.src = reader.result;
+  };
+
+  reader.onerror = () => {
+    status.textContent = "تعذر تحميل الصورة.";
+  };
+
+  reader.readAsDataURL(file);
+});
+
+$("productForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  if (!isAdmin) {
+    showToast("سجّل الدخول أولًا.");
+    return;
+  }
+
+  const id = $("productId").value;
+  const name = $("productName").value.trim();
+  const category = $("productCategory").value;
+  const price = Number($("productPrice").value);
+  const description = $("productDescription").value.trim();
+
+  if (!name || !description || !Number.isFinite(price) ||
+      price < 0 || price > 10000000) {
+    showToast("تحقق من بيانات المنتج والسعر.");
+    return;
+  }
+
+  const existing = id ? products.find(p => p.id === id) : null;
+
+  const product = {
+    id: existing ? existing.id : (
+      crypto.randomUUID
+        ? crypto.randomUUID()
+        : String(Date.now()) + Math.random().toString(36).slice(2)
+    ),
+    name,
+    category,
+    price,
+    description,
+    image: pendingImage || ""
+  };
+
+  const oldProducts = products.slice();
+
+  if (existing) {
+    products = products.map(p => p.id === id ? product : p);
+  } else {
+    products.unshift(product);
+  }
+
+  if (!saveProducts()) {
+    products = oldProducts;
+    return;
+  }
+
+  closeModal("productModal");
+  renderProducts();
+  showToast(existing ? "تم تحديث المنتج." : "تمت إضافة المنتج.");
+});
+
+$("searchInput").addEventListener("input", renderProducts);
+$("categoryFilter").addEventListener("change", renderProducts);
+
+document.querySelectorAll(".modal").forEach(modal => {
+  modal.addEventListener("click", event => {
+    if (event.target === modal) closeModal(modal.id);
+  });
+});
+
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    closeModal("loginModal");
+    closeModal("productModal");
+  }
+});
+
+$("year").textContent = new Date().getFullYear();
+
+loadProducts();
+updateAdminUI();
+</script>
+
+</body>
+</html>
