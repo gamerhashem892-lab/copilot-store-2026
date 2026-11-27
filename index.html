@@ -3,16 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تومر - TUMER</title>
+    <title>متجر تومر - TUMER FASHION</title>
     <script src="https://tailwindcss.com"></script>
     <link href="https://googleapis.com" rel="stylesheet">
-    <style>body { font-family: 'Cairo', sans-serif; }</style>
+    <style>
+        body { font-family: 'Cairo', sans-serif; }
+        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(50%); } }
+        .animate-marquee { display: flex; width: max-content; animation: marquee 20s linear infinite; }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 p-6">
-    <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md text-center">
-        <h1 class="text-2xl font-black mb-4">متجر تومر - TUMER</h1>
-        <p class="text-gray-600 mb-6">براند سعودي متخصص في الأزياء العصرية.</p>
-        <button onclick="alert('مرحباً بك في متجر تومر!')" class="bg-black text-white px-6 py-2 rounded-lg font-bold">تسوق الآن</button>
+<body class="bg-white text-gray-900">
+
+    <!-- الشريط العلوي المتحرك -->
+    <div class="bg-black text-white text-xs py-2 overflow-hidden">
+        <div class="animate-marquee gap-12 font-bold">
+            <span>🔥 خصم 10% عند استخدام كود TM</span>
+            <span>🚚 شحن سريع لجميع مناطق المملكة</span>
+            <span>🔥 خصم 10% عند استخدام كود TM</span>
+            <span>🚚 شحن سريع لجميع مناطق المملكة</span>
+            <span>🔥 خصم 10% عند استخدام كود TM</span>
+        </div>
     </div>
-</body>
-</html>
+
+    <!-- الهيدر والقائمة -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl font-black tracking-tighter bg-black text-white px-3 py-1 rounded">TUMER</span>
+                <span class="font-bold text-lg hidden sm:inline">تومر للأزياء</span>
+            </div>
+
+            <!-- روابط الأقسام -->
+            <nav class="hidden md:flex gap-6 text-sm font-bold">
+                <button onclick="filterCategory('الكل')" class="hover:text-gray-500">الكل</button>
+                <button onclick="filterCategory('عروض')" class="hover:text-gray-500">12 قطعة بـ 96 ريال</button>
+                <button onclick="filterCategory('رجالي')" class="hover:text-gray-500">رجالي</button>
+                <button onclick="filterCategory('مقاسات كبيرة')" class="hover:text-gray-500">مقاسات كبيرة</button>
+                <button onclick="filterCategory('أحذية')" class="hover:text-gray-500">الأحذية</button>
+            </nav>
+
+            <!-- أزرار الحساب والسلة -->
+            <div class="flex items-center gap-3">
+                <span id="userWelcome" class="text-xs font-bold text-gray-700 hidden"></span>
+                <button id="authBtn" onclick="openModal('authModal')" class="text-xs font-bold border border-black px-3 py-2 rounded-lg hover:bg-black hover:text-white transition">
+                    تسجيل دخول
+                </button>
+                <button id="logoutBtn" onclick="logout()" class="hidden text-xs font-bold bg-red-600 text-white px-3 py-2 rounded-lg">
+                    خروج
+                </button>
+                <button onclick="toggleCart()" class="relative bg-black text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2">
+                    <span>السلة</span>
+                    <span id="cartCount" class="bg-white text-black px-1.5 py-0.5 rounded-full text-[11px]">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- لوحة تحكم المدير (تظهر فقط لـ hshm) -->
+    <section id="adminPanel" class="hidden bg-gray-100 border-b-2 border-black py-6 px-4">
+        <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-black">🛠️ لوحة تحكم المدير (إضافة منتج جديد)</h2>
+                <span class="text-xs bg-black text-white px-2 py-1 rounded">مرحباً hshm</span>
+            </div>
+            <form onsubmit="addProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <input type="text" id="pName" placeholder="اسم المنتج (مثال: تيشرت قطن أسود)" required class="border p-2.5 rounded-lg text-sm">
+                <input type="number" id="pPrice" placeholder="السعر بالريال (مثال: 79)" required class="border p-2.5 rounded-lg text-sm">
+                <select id="pCat" class="border p-2.5 rounded-lg text-sm">
+                    <option value="رجالي">قسم: رجالي</option>
+                    <option value="عروض">قسم: 12 قطعة بـ 96 ريال</option>
+                    <option value="مقاسات كبيرة">قسم: مقاسات كبيرة</option>
+                    <option value="أحذية">قسم: الأحذية</option>
+                </select>
+                <input type="url" id="pImg" placeholder="رابط الصورة (اختياري)" class="border p-2.5 rounded-lg text-sm">
+                <button type="submit" class="sm:col-span-2 bg-black text-white py-2.5 rounded-lg font-bold text-sm hover:bg-gray-800">
+                    + نشر المنتج في المتجر
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- البانر الرئيسي -->
+    <section class="bg-black text-white py-14 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-3xl sm:text-5xl font-black mb-4">أناقة عصرية بأسعار استثنائية</h1>
+            <p class="text-gray-300 text-sm sm:text-base mb-6">تشكيلة واسعة من الأزياء الرجالية، المقاسات الكبيرة، والأحذية بأعلى جودة.</p>
+            <a href="#productsSection" class="inline-block bg-white text-black font-black px-8 py-3 rounded-lg text-sm hover:bg-gray-200 transition">تصفح المنتجات</a>
+        </div>
+    </section>
+
+    <!-- قسم المنتجات -->
+    <main id="productsSection" class="max-w-7xl mx-auto px-4 py-12">
+        <div class="flex justify-between items-center mb-8">
+            <h2 id="sectionTitle" class="text-2xl font-black border-r-4 border-black pr-3">جميع المنتجات</h2>
+            <div class="flex gap-2 md:hidden overflow-x-auto text-xs font-bold">
+                <button onclick="filterCategory('الكل')" class="bg-black text-white px-3 py-1 rounded">الكل</button>
+                <button onclick="filterCategory('رجالي')" class="bg-gray-100 px-3 py-1 rounded">رجالي</button>
+                <button onclick="filterCategory('عروض')" class="bg-gray-100 px-3 py-1 rounded">عروض</button>
+            </div>
+        </div>
+
+        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <!-- المنتجات تضاف هنا تلقائياً -->
+        </div>
+    </main>
+
+    <!-- سلة التسوق الجانبية -->
+    <div id="cartSidebar" class="fixed inset-0 bg-black/50 z-50 hidden justify-end">
+        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between p-6 shadow-2xl">
+            <div>
+                <div class="flex justify-between items-center border-b pb-4">
+                    <h3 class="text-lg font-black">سلة المشتريات</h3>
+                    <button onclick="toggleCart()" class="text-gray-500 font-bold text-xl">✕</button>
+                </div>
+                <div id="cartItems" class="py-4 space-y-4 max-h-[55vh] overflow-y-auto"></div>
+            </div>
+
+            <div class="border-t pt-4 space-y-3">
+                <div class="flex gap-2">
+                    <input type="text" id="couponInput" placeholder="كود الخصم (جرب TM)" class="border p-2 rounded-lg text-xs flex-1">
+                    <button onclick="applyCoupon()" class="bg-black text-white px-4 py-2 rounded-lg text-xs font-bold">تطبيق</button>
+                </div>
+                <div class="flex justify-between text-sm">
+                    <span>المجموع:</span>
+                    <span id="subtotalText" class="font-bold">0 ريال</span>
+                </div>
+                <div class="flex justify-between text-sm text-green-600">
+                    <span>الخصم:</span>
+                    <span id="discountText" class="font-bold">0 ريال</span>
+                </div>
+                <div class="flex justify-between text-lg font-black border-t pt-2">
+                    <span>الإجمالي (شامل الضريبة):</span>
+                    <span id="totalText">0 ريال</span>
+                </div>
+                <button onclick="checkout()" class="w-full bg-black text-white py-3 rounded-lg font-bold text-sm hover:bg-gray-800">
+                    إتمام الطلب الآن
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل الدخول / إنشاء حساب -->
+    <div id="authModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
+        <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 id="modalTitle" class="text-lg font-black">تسجيل الدخول</h3>
+                <button onclick="closeModal('authModal')" class="text-gray-500 font-bold">✕</button>
+            </div>
+
+            <!-- نموذج تسجيل الدخول -->
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold mb-1">اسم المستخدم</label>
+                    <input type="text" id="loginUser" required class="w-full border p-2.5 rounded-lg text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">كلمة المرور</label>
+                    <input type="password" id="loginPass" required class="w-full border p-2.5 rounded-lg text-sm">
+                </div>
+                <button type="submit" class="w-full bg-black text-white py-2.5 rounded-lg font-bold text-sm">دخول</button>
+                <p class="text-center text-xs text-gray-600">
+                    ليس لديك حساب؟ <button type="button" onclick="switchAuth('register')" class="font-bold text-black underline">إنشاء حساب جديد</button>
+                </p>
+            </form>
+
+            <!-- نموذج إنشاء حساب -->
+            <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                <div>
