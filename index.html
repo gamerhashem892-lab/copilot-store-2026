@@ -2,6 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta name="color-scheme" content="light dark">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>متجري</title>
 <style>
@@ -50,6 +51,31 @@ select,.field{padding:9px;border:1px solid #ccc;border-radius:8px;background:#ff
 .stat b{display:block;font-size:22px}
 footer{background:#000;color:#aaa;text-align:center;padding:24px;margin-top:40px}
 .toast{position:fixed;bottom:20px;right:50%;transform:translateX(50%);background:#000;color:#fff;padding:10px 20px;border-radius:30px;display:none;z-index:30}
+/* ===== الوضع الليلي: عكس الألوان تلقائياً حسب جهاز الزائر ===== */
+@media (prefers-color-scheme: dark){
+:root{color-scheme:dark}
+body,.modal,.fav,select,.field{background:#000;color:#eee}
+.ticker{background:#eee;color:#000}
+header,footer{background:#fff;color:#000}
+footer{color:#555}
+.bar input{background:#111;color:#fff}
+.nbtn{color:#000;border-color:#bbb}
+.nbtn:hover{background:#eee}
+nav button{color:#555}
+nav button.on{background:#000;color:#fff}
+.hero,.pic{background:#161616}
+.card,.row{border-color:#2a2a2a}
+.card:hover{box-shadow:0 6px 20px #fff2}
+.btn{background:#fff;color:#000;border-color:#fff}
+.btn.light{background:#000;color:#fff}
+.btn:disabled{opacity:.4}
+.close{color:#fff}
+.fav,select,.field{border-color:#444}
+.muted{color:#999}
+.modal{border:1px solid #333}
+.overlay{background:#000c}
+.stat,.toast{background:#fff;color:#000}
+}
 </style>
 </head>
 <body>
