@@ -1,172 +1,299 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر تومر - TUMER FASHION</title>
-    <script src="https://tailwindcss.com"></script>
-    <link href="https://googleapis.com" rel="stylesheet">
-    <style>
-        body { font-family: 'Cairo', sans-serif; }
-        @keyframes marquee { 0% { transform: translateX(0%); } 100% { transform: translateX(50%); } }
-        .animate-marquee { display: flex; width: max-content; animation: marquee 20s linear infinite; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>متجري</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Tahoma,"Segoe UI",Arial,sans-serif;background:#fff;color:#111;line-height:1.6}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+.ticker{background:#111;color:#fff;overflow:hidden;white-space:nowrap;padding:8px 0;font-size:14px;direction:ltr}
+.track{display:inline-flex;animation:move 25s linear infinite}
+.track span{padding:0 40px;direction:rtl}
+@keyframes move{to{transform:translateX(-50%)}}
+header{background:#000;color:#fff;position:sticky;top:0;z-index:5}
+.bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;max-width:1200px;margin:auto;padding:12px 16px}
+.logo{font-size:24px;font-weight:bold;cursor:pointer}
+.bar input{flex:1;min-width:180px;padding:9px 14px;border:0;border-radius:20px}
+.nbtn{background:none;border:1px solid #444;color:#fff;padding:6px 12px;border-radius:8px}
+.nbtn:hover{background:#222}
+nav{display:flex;gap:6px;overflow-x:auto;max-width:1200px;margin:auto;padding:0 16px 10px}
+nav button{background:none;border:0;color:#bbb;padding:5px 14px;border-radius:20px;white-space:nowrap}
+nav button.on{background:#fff;color:#000}
+main{max-width:1200px;margin:auto;padding:16px;min-height:60vh}
+.hero{border-radius:16px;padding:48px 24px;text-align:center;background:#f3f3f3;margin-bottom:20px}
+.hero h1{font-size:30px}
+.btn{background:#000;color:#fff;border:1px solid #000;padding:9px 18px;border-radius:8px}
+.btn.light{background:#fff;color:#000}
+.btn.small{padding:4px 10px;font-size:13px}
+.tools{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+select,.field{padding:9px;border:1px solid #ccc;border-radius:8px;background:#fff}
+.field{width:100%;margin:5px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{border:1px solid #e5e5e5;border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;position:relative}
+.card:hover{box-shadow:0 6px 20px #0001}
+.pic{height:160px;background:#f6f6f6;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:70px;overflow:hidden;cursor:pointer}
+.pic img{width:100%;height:100%;object-fit:cover}
+.fav{position:absolute;top:18px;left:18px;background:#fff;border:1px solid #ddd;border-radius:50%;width:34px;height:34px}
+.price{font-weight:bold;font-size:18px}
+.muted{color:#777;font-size:13px}
+.overlay{position:fixed;inset:0;background:#0008;display:none;align-items:center;justify-content:center;padding:14px;z-index:20}
+.overlay.show{display:flex}
+.modal{background:#fff;border-radius:14px;width:100%;max-width:480px;max-height:90vh;overflow:auto;padding:20px}
+.close{float:left;background:none;border:0;font-size:24px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #eee;padding:10px 0;flex-wrap:wrap}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.stat{background:#000;color:#fff;border-radius:12px;padding:16px}
+.stat b{display:block;font-size:22px}
+footer{background:#000;color:#aaa;text-align:center;padding:24px;margin-top:40px}
+.toast{position:fixed;bottom:20px;right:50%;transform:translateX(50%);background:#000;color:#fff;padding:10px 20px;border-radius:30px;display:none;z-index:30}
+</style>
 </head>
-<body class="bg-white text-gray-900">
+<body>
+<div class="ticker"><div class="track" id="track"></div></div>
+<header>
+  <div class="bar">
+    <div class="logo" id="logo" onclick="home()"></div>
+    <input id="search" placeholder="ابحث عن منتج..." oninput="home()">
+    <button class="nbtn" onclick="showFavs()">♡ المفضلة</button>
+    <button class="nbtn" onclick="showCart()">🛒 السلة (<span id="count">0</span>)</button>
+    <span id="userBox"></span>
+  </div>
+  <nav id="cats"></nav>
+</header>
+<main id="main"></main>
+<footer><p id="foot"></p><p>الشحن والإرجاع • سياسة الخصوصية • تواصل معنا</p></footer>
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal"><button class="close" onclick="closeModal()">×</button><div id="modal"></div></div>
+</div>
+<div class="toast" id="toast"></div>
 
-    <!-- الشريط العلوي المتحرك -->
-    <div class="bg-black text-white text-xs py-2 overflow-hidden">
-        <div class="animate-marquee gap-12 font-bold">
-            <span>🔥 خصم 10% عند استخدام كود TM</span>
-            <span>🚚 شحن سريع لجميع مناطق المملكة</span>
-            <span>🔥 خصم 10% عند استخدام كود TM</span>
-            <span>🚚 شحن سريع لجميع مناطق المملكة</span>
-            <span>🔥 خصم 10% عند استخدام كود TM</span>
-        </div>
-    </div>
+<script>
+/* ===== التخزين (في متصفح الزائر فقط) ===== */
+const mem={};
+function load(k,d){try{const v=localStorage.getItem('shop_'+k);return v?JSON.parse(v):(mem[k]??d)}catch(e){return mem[k]??d}}
+function save(k,v){mem[k]=v;try{localStorage.setItem('shop_'+k,JSON.stringify(v))}catch(e){toast('مساحة التخزين ممتلئة')}}
+function hash(s){let h=2166136261;for(const c of s){h^=c.codePointAt(0);h=Math.imul(h,16777619)}return (h>>>0).toString(16)}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money=n=>n.toFixed(2)+' ر.س';
 
-    <!-- الهيدر والقائمة -->
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <span class="text-2xl font-black tracking-tighter bg-black text-white px-3 py-1 rounded">TUMER</span>
-                <span class="font-bold text-lg hidden sm:inline">تومر للأزياء</span>
-            </div>
+let settings=load('settings',{name:'متجري',banner:'استمتع بخصم ١٠٪ بكود HSHM',code:'HSHM',percent:10,shipping:25,freeOver:300});
+const P=(id,name,cat,price,icon,stock,desc)=>({id,name,cat,price,icon,stock,desc,img:''});
+let products=load('products',[
+ P(1,'سماعة لاسلكية','إلكترونيات',199,'🎧',15,'صوت نقي وبطارية تدوم طويلاً'),
+ P(2,'ساعة ذكية','إلكترونيات',349,'⌚',10,'تتبع النشاط والإشعارات'),
+ P(3,'جوال ذكي','إلكترونيات',1899,'📱',7,'شاشة كبيرة وكاميرا ممتازة'),
+ P(4,'تيشيرت قطن','أزياء',59,'👕',40,'قطن ١٠٠٪ ومريح'),
+ P(5,'حذاء رياضي','أزياء',229,'👟',20,'خفيف ومناسب للمشي والجري'),
+ P(6,'حقيبة ظهر','أزياء',129,'🎒',18,'تتسع للابتوب ومقاومة للماء'),
+ P(7,'ماكينة قهوة','المنزل',449,'☕',8,'قهوة مختصة في بيتك'),
+ P(8,'مصباح مكتب','المنزل',89,'💡',25,'إضاءة مريحة للعين'),
+ P(9,'عطر فاخر','العناية',279,'🧴',12,'ثبات عالي ورائحة مميزة')
+]);
+let users=load('users',[]);
+if(!users.some(u=>u.username==='hshm')) users.push({username:'hshm',pass:hash('hshm1234'),role:'admin'});
+save('users',users);
+let orders=load('orders',[]);
+let cart=load('cart',[]);
+let favs=load('favs',[]);
+let session=load('session',null);
+let category='الكل', sort='new', coupon=false, adminTab='stats';
 
-            <!-- روابط الأقسام -->
-            <nav class="hidden md:flex gap-6 text-sm font-bold">
-                <button onclick="filterCategory('الكل')" class="hover:text-gray-500">الكل</button>
-                <button onclick="filterCategory('عروض')" class="hover:text-gray-500">12 قطعة بـ 96 ريال</button>
-                <button onclick="filterCategory('رجالي')" class="hover:text-gray-500">رجالي</button>
-                <button onclick="filterCategory('مقاسات كبيرة')" class="hover:text-gray-500">مقاسات كبيرة</button>
-                <button onclick="filterCategory('أحذية')" class="hover:text-gray-500">الأحذية</button>
-            </nav>
+const me=()=>users.find(u=>u.username===session);
+const isAdmin=()=>me()?.role==='admin';
+const find=id=>products.find(p=>p.id===id);
 
-            <!-- أزرار الحساب والسلة -->
-            <div class="flex items-center gap-3">
-                <span id="userWelcome" class="text-xs font-bold text-gray-700 hidden"></span>
-                <button id="authBtn" onclick="openModal('authModal')" class="text-xs font-bold border border-black px-3 py-2 rounded-lg hover:bg-black hover:text-white transition">
-                    تسجيل دخول
-                </button>
-                <button id="logoutBtn" onclick="logout()" class="hidden text-xs font-bold bg-red-600 text-white px-3 py-2 rounded-lg">
-                    خروج
-                </button>
-                <button onclick="toggleCart()" class="relative bg-black text-white px-4 py-2 rounded-lg text-xs font-bold flex items-center gap-2">
-                    <span>السلة</span>
-                    <span id="cartCount" class="bg-white text-black px-1.5 py-0.5 rounded-full text-[11px]">0</span>
-                </button>
-            </div>
-        </div>
-    </header>
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';clearTimeout(e.t);e.t=setTimeout(()=>e.style.display='none',2200)}
+function openModal(h){$('modal').innerHTML=h;$('overlay').classList.add('show')}
+function closeModal(){$('overlay').classList.remove('show')}
 
-    <!-- لوحة تحكم المدير (تظهر فقط لـ hshm) -->
-    <section id="adminPanel" class="hidden bg-gray-100 border-b-2 border-black py-6 px-4">
-        <div class="max-w-4xl mx-auto bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-black">🛠️ لوحة تحكم المدير (إضافة منتج جديد)</h2>
-                <span class="text-xs bg-black text-white px-2 py-1 rounded">مرحباً hshm</span>
-            </div>
-            <form onsubmit="addProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input type="text" id="pName" placeholder="اسم المنتج (مثال: تيشرت قطن أسود)" required class="border p-2.5 rounded-lg text-sm">
-                <input type="number" id="pPrice" placeholder="السعر بالريال (مثال: 79)" required class="border p-2.5 rounded-lg text-sm">
-                <select id="pCat" class="border p-2.5 rounded-lg text-sm">
-                    <option value="رجالي">قسم: رجالي</option>
-                    <option value="عروض">قسم: 12 قطعة بـ 96 ريال</option>
-                    <option value="مقاسات كبيرة">قسم: مقاسات كبيرة</option>
-                    <option value="أحذية">قسم: الأحذية</option>
-                </select>
-                <input type="url" id="pImg" placeholder="رابط الصورة (اختياري)" class="border p-2.5 rounded-lg text-sm">
-                <button type="submit" class="sm:col-span-2 bg-black text-white py-2.5 rounded-lg font-bold text-sm hover:bg-gray-800">
-                    + نشر المنتج في المتجر
-                </button>
-            </form>
-        </div>
-    </section>
+function header(){
+  document.title=settings.name;
+  $('logo').textContent=settings.name;
+  $('foot').textContent='© '+new Date().getFullYear()+' '+settings.name;
+  const half=('<span>🔥 '+esc(settings.banner)+'</span>').repeat(8);
+  $('track').innerHTML=half+half;
+  $('count').textContent=cart.reduce((s,i)=>s+i.qty,0);
+  $('userBox').innerHTML=me()
+    ?`<button class="nbtn" onclick="myOrders()">طلباتي</button> ${isAdmin()?'<button class="nbtn" onclick="admin()">⚙ لوحة التحكم</button>':''} <button class="nbtn" onclick="logout()">خروج (${esc(session)})</button>`
+    :`<button class="nbtn" onclick="authForm('login')">تسجيل الدخول</button> <button class="nbtn" onclick="authForm('register')">إنشاء حساب</button>`;
+  const cats=['الكل',...new Set(products.map(p=>p.cat))];
+  $('cats').innerHTML=cats.map((c,i)=>`<button class="${c===category?'on':''}" onclick="pickCat(${i})">${esc(c)}</button>`).join('');
+  $('cats').list=cats;
+}
+function pickCat(i){category=$('cats').list[i];home()}
 
-    <!-- البانر الرئيسي -->
-    <section class="bg-black text-white py-14 px-4 text-center">
-        <div class="max-w-3xl mx-auto">
-            <h1 class="text-3xl sm:text-5xl font-black mb-4">أناقة عصرية بأسعار استثنائية</h1>
-            <p class="text-gray-300 text-sm sm:text-base mb-6">تشكيلة واسعة من الأزياء الرجالية، المقاسات الكبيرة، والأحذية بأعلى جودة.</p>
-            <a href="#productsSection" class="inline-block bg-white text-black font-black px-8 py-3 rounded-lg text-sm hover:bg-gray-200 transition">تصفح المنتجات</a>
-        </div>
-    </section>
+/* ===== المتجر ===== */
+function card(p){
+  return `<div class="card">
+  <button class="fav" onclick="toggleFav(${p.id})">${favs.includes(p.id)?'❤️':'♡'}</button>
+  <div class="pic" onclick="details(${p.id})">${p.img?`<img src="${esc(p.img)}" alt="">`:esc(p.icon)}</div>
+  <b>${esc(p.name)}</b><span class="muted">${esc(p.cat)}</span><span class="price">${money(p.price)}</span>
+  <button class="btn" ${p.stock<1?'disabled':''} onclick="addCart(${p.id})">${p.stock<1?'نفد المخزون':'أضف للسلة'}</button></div>`;
+}
+function home(){
+  header();
+  const q=$('search').value.trim().toLowerCase();
+  let list=products.filter(p=>(category==='الكل'||p.cat===category)&&(p.name+p.desc).toLowerCase().includes(q));
+  list.sort((a,b)=>sort==='low'?a.price-b.price:sort==='high'?b.price-a.price:b.id-a.id);
+  $('main').innerHTML=`${q?'':`<div class="hero"><h1>أهلاً بك في ${esc(settings.name)}</h1><p>${esc(settings.banner)}</p><br><button class="btn" onclick="document.getElementById('list').scrollIntoView({behavior:'smooth'})">تسوق الآن</button></div>`}
+  <div class="tools" id="list"><h2>المنتجات (${list.length})</h2>
+  <select onchange="sort=this.value;home()">${[['new','الأحدث'],['low','السعر: الأقل'],['high','السعر: الأعلى']].map(([v,t])=>`<option value="${v}" ${v===sort?'selected':''}>${t}</option>`).join('')}</select></div>
+  <div class="grid">${list.map(card).join('')||'<p>ما فيه نتائج</p>'}</div>`;
+}
+function details(id){
+  const p=find(id);
+  openModal(`<div class="pic">${p.img?`<img src="${esc(p.img)}" alt="">`:esc(p.icon)}</div><h2>${esc(p.name)}</h2><p>${esc(p.desc)}</p><p class="price">${money(p.price)}</p><p class="muted">المتوفر: ${p.stock}</p><button class="btn" onclick="addCart(${id});closeModal()">أضف للسلة</button>`);
+}
+function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];save('favs',favs);home()}
+function showFavs(){
+  const list=products.filter(p=>favs.includes(p.id));
+  openModal('<h2>المفضلة</h2>'+(list.map(p=>`<div class="row"><span>${esc(p.name)} - ${money(p.price)}</span><button class="btn small" onclick="addCart(${p.id})">أضف للسلة</button></div>`).join('')||'<p>المفضلة فاضية</p>'));
+}
 
-    <!-- قسم المنتجات -->
-    <main id="productsSection" class="max-w-7xl mx-auto px-4 py-12">
-        <div class="flex justify-between items-center mb-8">
-            <h2 id="sectionTitle" class="text-2xl font-black border-r-4 border-black pr-3">جميع المنتجات</h2>
-            <div class="flex gap-2 md:hidden overflow-x-auto text-xs font-bold">
-                <button onclick="filterCategory('الكل')" class="bg-black text-white px-3 py-1 rounded">الكل</button>
-                <button onclick="filterCategory('رجالي')" class="bg-gray-100 px-3 py-1 rounded">رجالي</button>
-                <button onclick="filterCategory('عروض')" class="bg-gray-100 px-3 py-1 rounded">عروض</button>
-            </div>
-        </div>
+/* ===== السلة والطلب ===== */
+function addCart(id){
+  const p=find(id), item=cart.find(i=>i.id===id);
+  if(!p||(item?.qty||0)>=p.stock) return toast('ما فيه كمية أكثر');
+  item?item.qty++:cart.push({id,qty:1});
+  save('cart',cart);header();toast('انضاف للسلة ✓');
+}
+function changeQty(id,d){
+  const item=cart.find(i=>i.id===id);
+  if(d>0&&item.qty>=find(id).stock) return toast('ما فيه كمية أكثر');
+  item.qty+=d;cart=cart.filter(i=>i.qty>0);save('cart',cart);header();showCart();
+}
+function totals(){
+  cart=cart.filter(i=>find(i.id)&&find(i.id).stock>0);
+  cart.forEach(i=>i.qty=Math.min(i.qty,find(i.id).stock));
+  const sub=cart.reduce((s,i)=>s+find(i.id).price*i.qty,0);
+  const disc=coupon?sub*settings.percent/100:0;
+  const ship=!sub||sub-disc>=settings.freeOver?0:settings.shipping;
+  return {sub,disc,ship,total:sub-disc+ship};
+}
+function showCart(){
+  const t=totals();
+  if(!cart.length) return openModal('<h2>سلتك فاضية 🛒</h2>');
+  openModal('<h2>سلة المشتريات</h2>'+cart.map(i=>{const p=find(i.id);return `<div class="row"><span>${esc(p.name)}<br><span class="muted">${money(p.price)}</span></span><span><button class="btn small light" onclick="changeQty(${i.id},1)">+</button> ${i.qty} <button class="btn small light" onclick="changeQty(${i.id},-1)">−</button></span></div>`}).join('')+
+  `<input class="field" id="code" placeholder="كود الخصم" value="${coupon?esc(settings.code):''}"><button class="btn light" onclick="applyCode()">تطبيق الكود</button>
+  <div class="row"><span>المجموع</span><span>${money(t.sub)}</span></div>
+  <div class="row"><span>الخصم</span><span>- ${money(t.disc)}</span></div>
+  <div class="row"><span>الشحن</span><span>${t.ship?money(t.ship):'مجاني'}</span></div>
+  <div class="row price"><span>الإجمالي</span><span>${money(t.total)}</span></div>
+  <button class="btn" onclick="checkout()">إتمام الطلب</button>`);
+}
+function applyCode(){
+  coupon=$('code').value.trim().toUpperCase()===settings.code.toUpperCase();
+  toast(coupon?'تم تطبيق الخصم 🎉':'الكود غير صحيح');showCart();
+}
+function checkout(){
+  if(!me()){authForm('login');return toast('سجل دخولك أول')}
+  openModal(`<h2>بيانات التوصيل</h2><form onsubmit="placeOrder(event)">
+  <input class="field" name="full" placeholder="الاسم الكامل" required>
+  <input class="field" name="phone" placeholder="رقم الجوال 05xxxxxxxx" pattern="05[0-9]{8}" required>
+  <input class="field" name="city" placeholder="المدينة" required>
+  <textarea class="field" name="address" placeholder="العنوان" required></textarea>
+  <p class="muted">طريقة الدفع: عند الاستلام</p>
+  <button class="btn">تأكيد الطلب - ${money(totals().total)}</button></form>`);
+}
+function placeOrder(e){
+  e.preventDefault();
+  const t=totals(); if(!cart.length) return showCart();
+  const info=Object.fromEntries(new FormData(e.target));
+  const items=cart.map(i=>({name:find(i.id).name,qty:i.qty}));
+  cart.forEach(i=>find(i.id).stock-=i.qty);
+  const id=Date.now();
+  orders.unshift({id,user:session,items,total:t.total,...info,status:'جديد',date:new Date().toLocaleDateString('ar-SA')});
+  cart=[];coupon=false;
+  save('orders',orders);save('products',products);save('cart',cart);
+  home();openModal(`<h2>تم استلام طلبك ✅</h2><p>رقم الطلب: ${id}</p>`);
+}
+const orderText=o=>`<b>#${o.id}</b> • ${esc(o.date)}<br>${o.items.map(i=>esc(i.name)+' × '+i.qty).join('، ')}<br>${money(o.total)}`;
+function myOrders(){
+  openModal('<h2>طلباتي</h2>'+(orders.filter(o=>o.user===session).map(o=>`<div class="row"><span>${orderText(o)}</span><b>${esc(o.status)}</b></div>`).join('')||'<p>ما عندك طلبات</p>'));
+}
 
-        <div id="productsGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <!-- المنتجات تضاف هنا تلقائياً -->
-        </div>
-    </main>
+/* ===== الحسابات ===== */
+function authForm(mode){
+  const reg=mode==='register';
+  openModal(`<h2>${reg?'إنشاء حساب':'تسجيل الدخول'}</h2><form onsubmit="auth(event,'${mode}')">
+  <input class="field" name="username" placeholder="اسم المستخدم" required minlength="3">
+  <input class="field" name="password" type="password" placeholder="كلمة السر" required ${reg?'minlength="6"':''}>
+  ${reg?'<input class="field" name="confirm" type="password" placeholder="تأكيد كلمة السر" required>':''}
+  <button class="btn">${reg?'إنشاء الحساب':'دخول'}</button></form>
+  <br><button class="btn light small" onclick="authForm('${reg?'login':'register'}')">${reg?'عندي حساب':'ما عندي حساب'}</button>`);
+}
+function auth(e,mode){
+  e.preventDefault();
+  const f=Object.fromEntries(new FormData(e.target)), name=f.username.trim().toLowerCase();
+  const user=users.find(u=>u.username===name);
+  if(mode==='register'){
+    if(name.length<3) return toast('اسم المستخدم قصير');
+    if(user) return toast('الاسم مستخدم من قبل');
+    if(f.password!==f.confirm) return toast('كلمتا السر غير متطابقتين');
+    users.push({username:name,pass:hash(f.password),role:'user'});save('users',users);
+  } else if(!user||user.pass!==hash(f.password)) return toast('اسم المستخدم أو كلمة السر غلط');
+  session=name;save('session',session);closeModal();home();toast('أهلاً '+name);
+}
+function logout(){session=null;save('session',null);home()}
 
-    <!-- سلة التسوق الجانبية -->
-    <div id="cartSidebar" class="fixed inset-0 bg-black/50 z-50 hidden justify-end">
-        <div class="bg-white w-full max-w-md h-full flex flex-col justify-between p-6 shadow-2xl">
-            <div>
-                <div class="flex justify-between items-center border-b pb-4">
-                    <h3 class="text-lg font-black">سلة المشتريات</h3>
-                    <button onclick="toggleCart()" class="text-gray-500 font-bold text-xl">✕</button>
-                </div>
-                <div id="cartItems" class="py-4 space-y-4 max-h-[55vh] overflow-y-auto"></div>
-            </div>
-
-            <div class="border-t pt-4 space-y-3">
-                <div class="flex gap-2">
-                    <input type="text" id="couponInput" placeholder="كود الخصم (جرب TM)" class="border p-2 rounded-lg text-xs flex-1">
-                    <button onclick="applyCoupon()" class="bg-black text-white px-4 py-2 rounded-lg text-xs font-bold">تطبيق</button>
-                </div>
-                <div class="flex justify-between text-sm">
-                    <span>المجموع:</span>
-                    <span id="subtotalText" class="font-bold">0 ريال</span>
-                </div>
-                <div class="flex justify-between text-sm text-green-600">
-                    <span>الخصم:</span>
-                    <span id="discountText" class="font-bold">0 ريال</span>
-                </div>
-                <div class="flex justify-between text-lg font-black border-t pt-2">
-                    <span>الإجمالي (شامل الضريبة):</span>
-                    <span id="totalText">0 ريال</span>
-                </div>
-                <button onclick="checkout()" class="w-full bg-black text-white py-3 rounded-lg font-bold text-sm hover:bg-gray-800">
-                    إتمام الطلب الآن
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- نافذة تسجيل الدخول / إنشاء حساب -->
-    <div id="authModal" class="fixed inset-0 bg-black/60 z-50 hidden items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-2xl p-6 shadow-xl">
-            <div class="flex justify-between items-center mb-4">
-                <h3 id="modalTitle" class="text-lg font-black">تسجيل الدخول</h3>
-                <button onclick="closeModal('authModal')" class="text-gray-500 font-bold">✕</button>
-            </div>
-
-            <!-- نموذج تسجيل الدخول -->
-            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold mb-1">اسم المستخدم</label>
-                    <input type="text" id="loginUser" required class="w-full border p-2.5 rounded-lg text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold mb-1">كلمة المرور</label>
-                    <input type="password" id="loginPass" required class="w-full border p-2.5 rounded-lg text-sm">
-                </div>
-                <button type="submit" class="w-full bg-black text-white py-2.5 rounded-lg font-bold text-sm">دخول</button>
-                <p class="text-center text-xs text-gray-600">
-                    ليس لديك حساب؟ <button type="button" onclick="switchAuth('register')" class="font-bold text-black underline">إنشاء حساب جديد</button>
-                </p>
-            </form>
-
-            <!-- نموذج إنشاء حساب -->
-            <form id="registerForm" onsubmit="handleRegister(event)" class="space-y-4 hidden">
-                <div>
+/* ===== لوحة التحكم ===== */
+function admin(tab){
+  if(!isAdmin()) return home();
+  adminTab=tab||adminTab;header();
+  const tabs=[['stats','الإحصائيات'],['products','المنتجات'],['orders','الطلبات'],['users','المستخدمين'],['settings','الإعدادات']];
+  let body='';
+  if(adminTab==='stats'){
+    const sales=orders.filter(o=>o.status!=='ملغي').reduce((s,o)=>s+o.total,0);
+    body=`<div class="stats">${[['المبيعات',money(sales)],['الطلبات',orders.length],['المنتجات',products.length],['المستخدمين',users.length]].map(([a,b])=>`<div class="stat">${a}<b>${b}</b></div>`).join('')}</div>`;
+  }
+  if(adminTab==='products') body='<button class="btn" onclick="productForm()">+ إضافة منتج</button>'+products.map(p=>`<div class="row"><span>${esc(p.icon)} ${esc(p.name)} • ${money(p.price)} • المخزون ${p.stock}</span><span><button class="btn small light" onclick="productForm(${p.id})">تعديل</button> <button class="btn small" onclick="delProduct(${p.id})">حذف</button></span></div>`).join('');
+  if(adminTab==='orders') body=orders.map(o=>`<div class="row"><span>${orderText(o)}<br><span class="muted">${esc(o.full)} • ${esc(o.phone)} • ${esc(o.city)} - ${esc(o.address)}</span></span><select onchange="setStatus(${o.id},this.value)">${['جديد','قيد التجهيز','تم الشحن','تم التوصيل','ملغي'].map(s=>`<option ${s===o.status?'selected':''}>${s}</option>`).join('')}</select></div>`).join('')||'<p>ما فيه طلبات</p>';
+  if(adminTab==='users') body=users.map((u,i)=>`<div class="row"><span>${esc(u.username)} (${u.role==='admin'?'مدير':'عميل'})</span>${u.role==='admin'?'':`<button class="btn small" onclick="delUser(${i})">حذف</button>`}</div>`).join('');
+  if(adminTab==='settings') body=`<form onsubmit="saveSettings(event)" style="max-width:450px">${[['name','اسم المتجر','text'],['banner','نص الشريط المتحرك','text'],['code','كود الخصم','text'],['percent','نسبة الخصم ٪','number'],['shipping','سعر الشحن','number'],['freeOver','شحن مجاني فوق','number']].map(([k,l,t])=>`<label>${l}<input class="field" name="${k}" type="${t}" value="${esc(settings[k])}" ${t==='number'?`min="0" ${k==='percent'?'max="100"':''}`:''} required></label>`).join('')}<button class="btn">حفظ</button></form>`;
+  $('main').innerHTML=`<div class="tools"><h2>لوحة التحكم</h2><button class="btn light" onclick="home()">رجوع للمتجر</button></div><div class="tabs">${tabs.map(([k,t])=>`<button class="btn small ${k===adminTab?'':'light'}" onclick="admin('${k}')">${t}</button>`).join('')}</div>${body}`;
+}
+function productForm(id){
+  const p=find(id)||{name:'',cat:'',price:'',stock:'',icon:'📦',desc:''};
+  openModal(`<h2>${id?'تعديل':'إضافة'} منتج</h2><form onsubmit="saveProduct(event,${id||0})">
+  ${[['name','اسم المنتج','text'],['cat','القسم','text'],['price','السعر','number'],['stock','المخزون','number'],['icon','رمز (إيموجي)','text']].map(([k,l,t])=>`<input class="field" name="${k}" placeholder="${l}" type="${t}" ${t==='number'?`min="0" step="${k==='price'?'0.01':'1'}"`:''} value="${esc(p[k])}" required>`).join('')}
+  <textarea class="field" name="desc" placeholder="الوصف">${esc(p.desc)}</textarea>
+  <label>صورة المنتج (اختياري)<input class="field" type="file" id="file" accept="image/*"></label>
+  <button class="btn">حفظ</button></form>`);
+}
+function shrink(file){
+  return new Promise(res=>{
+    const img=new Image(), url=URL.createObjectURL(file);
+    img.onload=()=>{const k=Math.min(1,500/Math.max(img.width,img.height)),c=document.createElement('canvas');c.width=img.width*k;c.height=img.height*k;c.getContext('2d').drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',.8))};
+    img.onerror=()=>res('');img.src=url;
+  });
+}
+async function saveProduct(e,id){
+  e.preventDefault();
+  const f=Object.fromEntries(new FormData(e.target)), file=$('file').files[0];
+  f.price=+f.price;f.stock=+f.stock;
+  if(file) f.img=await shrink(file);
+  if(id) Object.assign(find(id),f); else products.push({id:Date.now(),img:'',...f});
+  save('products',products);closeModal();admin();toast('تم الحفظ ✓');
+}
+function delProduct(id){
+  if(!confirm('متأكد تبي تحذف المنتج؟')) return;
+  products=products.filter(p=>p.id!==id);cart=cart.filter(i=>i.id!==id);
+  save('products',products);save('cart',cart);admin();
+}
+function delUser(i){if(confirm('حذف المستخدم؟')){users.splice(i,1);save('users',users);admin()}}
+function setStatus(id,s){orders.find(o=>o.id===id).status=s;save('orders',orders);toast('تم تحديث الحالة')}
+function saveSettings(e){
+  e.preventDefault();
+  const f=Object.fromEntries(new FormData(e.target));
+  ['percent','shipping','freeOver'].forEach(k=>f[k]=+f[k]);
+  settings=f;coupon=false;save('settings',settings);admin();toast('تم الحفظ ✓');
+}
+home();
+</script>
+</body>
+</html>
